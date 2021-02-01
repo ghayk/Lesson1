@@ -12,6 +12,7 @@ function App() {
       <Name />
       <SurName />
       <Age />
+      <Age />
       </div>
     </div>
   );
