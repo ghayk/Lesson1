@@ -9,13 +9,12 @@ function App() {
     <div className="App">
       <H1 />
       <div className="App2">
-      <Name />
-      <SurName />
-      <Age />
-      <Age />
+        <Name />
+        <SurName />
+        <Age />
       </div>
     </div>
   );
-  
+
 }
 export default App;
