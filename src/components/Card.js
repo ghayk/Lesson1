@@ -8,8 +8,8 @@ function Card(props) {
          <div className="flex">
             {props.arrCard.map((item, index) => {
                return (
-                  <div className={`card ${item.active ? 'active' : ''} `}>
-                     <CardElement item={item} key={index} />
+                  <div onClick={() => props.Click(index)} className={`card ${item.active ? 'active' : ''}`} key={index}>
+                     <CardElement item={item} />
                   </div>
                )
             })}
