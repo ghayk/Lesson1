@@ -1,12 +1,48 @@
-body{
-  display: flex;
-  justify-content: center;
+*{
+   margin: 0;
+   padding: 0;
+   color: rgb(116, 116, 116);
 }
-.App2 {
+h1{
+   margin: 10px 0 40px 0;
   text-align: center;
-  border:1px solid black;
-  width: 300px;
-  padding: 0 0 0 10px;
-  margin: 0 auto;
-  background-color: rgb(228, 228, 228);
+}
+.flex{
+   display: flex;
+   justify-content: space-around;
+   flex-wrap: wrap;
+}
+.card{
+   margin: 0 10px 20px;
+   border-radius: 7px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 200px;
+   height: 280px;
+   border: 2px solid rgb(175, 175, 175);
+   box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.2);
+   }
+.CardEllCon{
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   align-items: center;
+   width: 90%;
+   height: 90%;
+
+}
+.title{
+   font-size: 25px;
+   font-weight: 700;
+   text-shadow: 1px 1px 2px #777;
+}
+.img{
+   width: 100%;   
+}
+.text{
+   text-align: center;
+}
+.card.active{
+   border: 2px solid rgba(30, 255, 0,0.5); 
 }

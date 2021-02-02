@@ -1,20 +1,29 @@
+import React from 'react';
 import './App.css';
-import H1 from './component/H1'
-import Name from './component/Name'
-import SurName from './component/SurName'
-import Age from './component/Age'
-import TodoList from './component/TodoList'
+import Card from './components/Card'
+
 
 function App() {
+  const arrCard = [
+    {title:'Honda',
+    text:'The Honda logo is a large “H” appeared as the brand’s badge.',img:'https://www.carlogos.org/car-logos/honda-logo.png', 
+    imgAlt:'Honda', active:true},
+    
+    {title:'Toyota',
+    text:'The Honda logo is a large “H” appeared as the brand’s badge.',img:'https://www.carlogos.org/car-logos/toyota-logo.png',
+    imgAlt:'Toyota' , active:true},
+    
+    {title:'Mazda',
+    text:'The Honda logo is a large “H” appeared as the brand’s badge.',img:'https://www.carlogos.org/car-logos/mazda-logo.png', 
+    imgAlt:'Mazda', active:false},
+
+    {title:'Nissan',
+    text:'The Honda logo is a large “H” appeared as the brand’s badge.',img:'https://www.carlogos.org/car-logos/nissan-logo.png', 
+    imgAlt:'Nissan', active:false},
+  ]
   return (
     <div className="App">
-      <H1 />
-      <div className="App2">
-        <Name />
-        <SurName />
-        <Age />
-        <TodoList />
-      </div>
+      <Card arrCard={arrCard}/>
     </div>
   );
 
