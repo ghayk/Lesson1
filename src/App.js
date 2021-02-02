@@ -4,13 +4,13 @@ import Card from './components/Card'
 
 
 function App() {
-  let arrCard = [
+  const [arrCard, setArrCard] = React.useState([
     {
       title: 'Honda',
       text: 'The Honda logo is a large “H” appeared as the brand’s badge.',
       img: 'https://www.carlogos.org/car-logos/honda-logo.png',
       imgAlt: 'Honda',
-      active: true
+      active: false
     },
     {
       title: 'Toyota',
@@ -33,16 +33,17 @@ function App() {
       imgAlt: 'Nissan',
       active: false
     },
-  ]
+  ])
   function Click(index) {
-    arrCard = arrCard.map((acc, ind) => {
+    setArrCard(arrCard.map((acc, ind) => {
       if (ind === index) {
         acc.active = !acc.active
         console.log(`${acc.title} active - ${acc.active}`);
       }
       return acc
-    })
-  } 
+    }))
+  }
+
   return (
     <div className="App">
       <Card arrCard={arrCard} Click={Click} />
