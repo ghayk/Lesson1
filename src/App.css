@@ -31,8 +31,7 @@ h1{
    justify-content: flex-start;
    align-items: center;
    width: 90%;
-   height: 90%;
-
+   height: 90%;  
 }
 .title{
    font-size: 25px;
@@ -60,4 +59,5 @@ h1{
 .card.active{
    border: 2px solid rgb(0, 255, 0); 
    background-color: rgba(0, 255, 0, 0.08);
+   transform:scale(1.03,1.03)
 }
