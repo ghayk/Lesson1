@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import Card from './components/Card'
+import AddNewCar from './components/AddNewCar'
 
 
 function App() {
@@ -38,7 +39,7 @@ function App() {
     setArrCard(arrCard.map((acc, ind) => {
       if (ind === index) {
         acc.active = !acc.active
-        console.log(`${acc.title} active - ${acc.active}`);
+        // console.log(`${acc.title} active - ${acc.active}`);
       }
       return acc
     }))
@@ -46,6 +47,7 @@ function App() {
 
   return (
     <div className="App">
+      <AddNewCar />
       <Card arrCard={arrCard} Click={Click} />
     </div>
   );

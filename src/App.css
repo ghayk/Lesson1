@@ -61,3 +61,42 @@ h1{
    background-color: rgba(0, 255, 0, 0.08);
    transform:scale(1.03,1.03)
 }
+.DivBtnAddNewCar{
+   position: absolute;
+   left: 10px;
+   top: 10px;
+   padding: 5px 10px;
+   border-radius : 7px;
+   background-color: #0f0;
+   border-color: #0f0;
+   color: white;
+   outline: none;
+   letter-spacing: 1px;
+}
+.DivInput{
+   position: absolute;
+   left: 10px;
+   top: 50px;
+   background-color: #ddd;
+   border: 1px solid #000;
+   width: 200px;
+   height: 150px;
+   padding: 10px;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+}
+.DivInput.active{
+   display: none;
+}
+.DivInput input, .DivInput button{
+   text-align: center;
+   padding: 5px 0;
+   border-radius: 7px;
+   outline: none;
+   letter-spacing: 1px;
+}
+.DivInput button{
+   background-color: #0f0;
+   color: #fff;
+}
