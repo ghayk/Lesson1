@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Card from './components/Card'
 import AddNewCar from './components/AddNewCar'
+import Counter from './components/Counter'
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
     <div className="App">
       <AddNewCar />
       <Card arrCard={arrCard} Click={Click} />
+      <Counter />
     </div>
   );
 
