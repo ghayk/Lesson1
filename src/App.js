@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react'
 import './App.css';
 import Card from './components/Card'
 import AddNewCar from './components/AddNewCar'
 import Counter from './components/Counter'
 
 
-function App() {
-  const [arrCard, setArrCard] = React.useState([
-    {
+class App extends Component {
+  state = {
+    addCar:[],
+    arrCard: [  {
       title: 'Honda',
       text: 'The Honda logo is a large “H” appeared as the brand’s badge.',
       img: 'https://www.carlogos.org/car-logos/honda-logo.png',
@@ -35,23 +36,27 @@ function App() {
       imgAlt: 'Nissan',
       active: false
     },
-  ])
-  function Click(index) {
-    setArrCard(arrCard.map((acc, ind) => {
+  ]}
+
+  Click = (index) => {
+    this.setState({arrCard: this.state.arrCard.map((acc, ind) => {
       if (ind === index) {
         acc.active = !acc.active
         // console.log(`${acc.title} active - ${acc.active}`);
       }
       return acc
-    }))
+    })})
   }
+  
+  render(){
   return (
     <div className="App">
-      <AddNewCar />
-      <Card arrCard={arrCard} Click={Click} />
+      <Card arrCard={this.state.arrCard} Click={this.Click} />
+      <AddNewCar arrCard={this.state.arrCard} click={this.Click}/>
       <Counter />
-    </div>
-  );
+      </div>
+      );
+    }
+  }
 
-}
 export default App;

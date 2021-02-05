@@ -2,7 +2,7 @@ import React from 'react';
 import CardElement from './CardElement'
 
 function Card(props) {
-   return (
+      return (
       <div>
          <h1>Японские марки автомобилей</h1>
          <div className="flex">
