@@ -12,11 +12,14 @@ class Counter extends Component {
    handleMinusCount = () => {
       this.setState({ counter: this.state.counter - 1 })
    }
+   handleZeroCount = () => {
+      this.setState({ counter: 0 })
+   }
    render() {
       return (
          <div className='containerCounter'>
             <Result res={this.state.counter} />
-            <Actions plus={this.handlePlusCount} minus={this.handleMinusCount} />
+            <Actions plus={this.handlePlusCount} minus={this.handleMinusCount} zero={this.handleZeroCount}/>
          </div>
       )
    }

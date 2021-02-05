@@ -45,7 +45,6 @@ function App() {
       return acc
     }))
   }
-
   return (
     <div className="App">
       <AddNewCar />
