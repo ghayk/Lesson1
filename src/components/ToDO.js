@@ -16,6 +16,7 @@ class ToDO extends Component {
    }
    Add = () => {
       this.state.value && this.setState({ task: this.state.tasks.push(this.state.value) })
+      this.state.value = ''
    }
 
    render() {
@@ -25,7 +26,7 @@ class ToDO extends Component {
       return (
          <div>
             <div className='form'>
-               <input type='text' onChange={this.InputValue} />
+               <input value={this.state.value} type='text' onChange={this.InputValue} />
                <button onClick={this.Add}>Add</button>
             </div>
             {this.state.empty ? <h3 className='ListEmpty'>List is empty</h3> : <Task task={this.state.tasks} Close={this.Close} />}
