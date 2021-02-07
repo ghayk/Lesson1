@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 class Task extends Component {
    constructor(props) {
-      super(props)
+      super()
    }
    render() {
       return (
