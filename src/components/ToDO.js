@@ -5,7 +5,8 @@ import Task from './Task'
 class ToDO extends Component {
    state = {
       tasks: ['task1', 'task2', 'task3', 'task4'],    
-      value: ''
+      value: '',
+      a:true
    }
    Close = (i) => {
       this.setState({ task: this.state.tasks.splice(i, 1) })
@@ -16,7 +17,6 @@ class ToDO extends Component {
    Add = () => {
       this.state.value && this.setState({ task: this.state.tasks.push(this.state.value),value:''})      
    }
-
    render() {
       return (
          <div>
