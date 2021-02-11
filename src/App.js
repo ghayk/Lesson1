@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import './App.css'
-import ToDO from './components/ToDO'
+import ToDo from './components/ToDo/ToDo'
 
 class App extends Component {
 
   render() {
     return (
-      <ToDO />
+      <ToDo />
     );
 
   }
