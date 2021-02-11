@@ -9,17 +9,19 @@ class ToDo extends Component {
       tasks: ['Task1', 'Task2', 'Task3', 'Task4'],
    }
    CloseTask = i => {
-      const tasks = this.state.tasks.filter((item, index) => {
-         if (index !== i) {
-            return item
-         } else return ''
+      const tasks = [...this.state.tasks]
+      this.setState({
+         tasks: tasks.filter((item, index) => {
+            if (index === i) {
+               return ''
+            } else return item
+         })
       })
-      this.setState({ tasks })
    }
    AddTask = (inputValue) => {
       const tasks = [...this.state.tasks]
       inputValue && tasks.push(inputValue)
-      this.setState({tasks})
+      this.setState({ tasks })
    }
 
    render() {
