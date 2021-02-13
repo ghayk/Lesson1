@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import styles from './Add.module.css'
-
+import { Row, Col } from 'react-bootstrap';
 class Add extends Component {
    state = {
       inputValue: ''
@@ -14,17 +13,20 @@ class Add extends Component {
    }
    render() {
       return (
-         <div>
-            <input
-               className={styles.input}
-               onChange={this.handleValue}
-               value={this.state.inputValue}
-            />
-            <button
-               className={styles.btn}
-               onClick={this.AddTask}
-            >add</button>
-         </div>
+         <Row>
+            <Col>
+               <input
+                  className='inputAdd'
+                  onChange={this.handleValue}
+                  value={this.state.inputValue}
+                  
+               />
+               <button
+                  className='btnAdd'
+                  onClick={this.AddTask}
+               >add</button>
+            </Col>
+         </Row>
       )
    }
 }

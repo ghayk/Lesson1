@@ -1,0 +1,48 @@
+*{
+   /* border: 1px solid #000; */
+   margin: 5px;
+   user-select: none;
+}
+.col{
+display: flex;
+justify-content: center;
+}
+.block{
+   position: relative;
+   width: 100px;
+   height: 100px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background: rgb(216, 216, 216);
+   border-radius: 7px;
+
+}
+.btnClose{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 22px;
+   height: 22px;
+   border: 1px solid rgb(136, 136, 136);
+   color: rgb(33, 33, 33);
+   border-radius: 5PX;
+   position: absolute;
+   top: 5px;
+   right: 5px;
+}
+.btnClose:active{
+   background: rgba(255, 0, 0, 0.5);
+   color: white;
+}
+.inputAdd, .btnAdd{
+   border: 1px solid #ccc;
+   border-radius: 7px;
+   padding: 5px 15px;
+}
+.btnAdd{
+   margin:0 0 0 10px;
+}
+.btnAdd:active{
+   background-color: #ccc;
+}

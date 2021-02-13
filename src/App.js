@@ -6,7 +6,9 @@ class App extends Component {
 
   render() {
     return (
-      <ToDo />
+      <div>
+        <ToDo />
+      </div>
     );
 
   }

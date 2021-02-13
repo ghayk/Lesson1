@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
-import styles from './Task.module.css'
+import { Container, Row, Col } from 'react-bootstrap';
+import id from '../Id/IdGenerator'
 class Task extends Component {
 
    render() {
-      const {Onclick} = this.props
+      const { Onclick } = this.props
       const tasks = this.props.tasks.map((item, index) => {
          return (
-            <div className={styles.list} key={index}>
-               <div className={styles.task}>{item}</div>
-               <button className={styles.btn} onClick={()=>Onclick(index)}>x</button>
-            </div>
+            <Col key={id()} className='col' xs={6} sm={4} md={3} lg={2} >
+               <div className='block'>
+                  {item}
+                  <button className='btnClose' onClick={() => Onclick(index)}>x</button>
+               </div>
+            </Col>
          )
       })
       return (
-         <div className={styles.container}>{this.props.tasks.length===0?<p>list is empty</p>:tasks}</div>
+         <Container>
+            <Row className="justify-content-center ">{this.props.tasks.length === 0 ? <p>list is empty</p> : tasks}</Row>
+         </Container>
       )
    }
 }
