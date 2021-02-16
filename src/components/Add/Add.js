@@ -18,8 +18,7 @@ class Add extends Component {
                <input
                   className='inputAdd'
                   onChange={this.handleValue}
-                  value={this.state.inputValue}
-                  
+                  value={this.state.inputValue}                  
                />
                <button
                   className='btnAdd'
