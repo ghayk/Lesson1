@@ -1,32 +1,49 @@
 import React, { Component } from 'react';
 import Task from '../Task/Task'
 import Add from '../Add/Add'
+import id from '../Id/IdGenerator'
 
 class ToDo extends Component {
    state = {
-      tasks: ['Task1', 'Task2', 'Task3', 'Task4','Task5', 'Task6', 'Task7', 'Task8'],
+      tasks: [
+         {
+            title:'Task 1',
+            _id:id()
+         },
+         {
+            title:'Task 2',
+            _id:id()
+         },
+         {
+            title:'Task 3',
+            _id:id()
+         },
+         {
+            title:'Task 4',
+            _id:id()
+         }
+      ],
    }
-   CloseTask = i => {
+   CloseTask = id => {
       const tasks = [...this.state.tasks]
          this.setState({
-            tasks: tasks.filter((item, index) => {
-               if (index !== i) {
-                  return item
-               } else return ''
-            })
+            tasks: tasks.filter((item) => item._id !== id)
          })
    }
    AddTask = (inputValue) => {
       const tasks = [...this.state.tasks]
-      inputValue && tasks.push(inputValue)
+      inputValue && tasks.push({
+         title:inputValue,
+         _id:id()
+      })
       this.setState({ tasks })
    }
 
    render() {
       return (
          <div >
-            <Add Onclick={this.AddTask} />
-            <Task Onclick={this.CloseTask} tasks={this.state.tasks} />
+            <Add AddTask={this.AddTask} />
+            <Task CloseTask={this.CloseTask} tasks={this.state.tasks} />
          </div>
       )
    }

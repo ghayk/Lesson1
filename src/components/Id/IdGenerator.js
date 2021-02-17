@@ -1,4 +1,3 @@
-
-export default function IdGenerator () {
-   return Math.floor(Math.random() * 9000 + 1000).toString(16);
+export default function IdGenerator() {
+   return Math.random().toString(16).slice(2);
 }

@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import id from '../Id/IdGenerator'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faWindowClose } from '@fortawesome/free-solid-svg-icons'
+
 class Task extends Component {
 
    render() {
-      const { Onclick } = this.props
-      const tasks = this.props.tasks.map((item, index) => {
+      const { CloseTask } = this.props
+      const tasks = this.props.tasks.map(item => {
          return (
-            <Col key={id()} className='col' xs={6} sm={4} md={3} lg={2} >
+            <Col key={item._id} className='col' xs={6} sm={4} md={3} lg={2} >
                <div className='block'>
-                  {item}
-                  <button className='btnClose' onClick={() => Onclick(index)}>x</button>
+                  {item.title}
+                  <button className='btnClose' onClick={() => CloseTask(item._id)}>
+                  <FontAwesomeIcon icon={faWindowClose} />
+                  </button>
+                  &nbsp;<input type='checkbox' />
                </div>
             </Col>
          )

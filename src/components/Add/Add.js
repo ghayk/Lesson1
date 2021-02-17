@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 class Add extends Component {
    state = {
       inputValue: ''
@@ -8,8 +10,13 @@ class Add extends Component {
       this.setState({ inputValue: e.target.value })
    }
    AddTask = () => {
-      this.props.Onclick(this.state.inputValue)
+      this.props.AddTask(this.state.inputValue)
       this.setState({ inputValue: '' })
+   }
+   intputEnter = (e) => {
+      if(e.key === 'Enter'){
+         this.AddTask()
+      }
    }
    render() {
       return (
@@ -18,12 +25,14 @@ class Add extends Component {
                <input
                   className='inputAdd'
                   onChange={this.handleValue}
-                  value={this.state.inputValue}                  
+                  value={this.state.inputValue}
+                  onKeyDown={this.intputEnter}
                />
                <button
                   className='btnAdd'
                   onClick={this.AddTask}
-               >add</button>
+                  disabled={!!!this.state.inputValue}
+               ><FontAwesomeIcon icon={faPlus} /></button>
             </Col>
          </Row>
       )
