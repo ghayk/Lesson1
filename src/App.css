@@ -33,7 +33,7 @@ justify-content: center;
 .btnClose:active{
    color: white;
 }
-.inputAdd, .btnAdd{
+.inputAdd, .btnAdd,.btn-dell-tasks{
    border: 1px solid #ccc;
    border-radius: 7px;
    padding: 5px 15px;
@@ -43,4 +43,11 @@ justify-content: center;
 }
 .btnAdd:active{
    background-color: #ccc;
+}
+.btn-dell-tasks{
+   background-color: red;
+   color: white;
+}
+.btn-dell-tasks:active{
+   background: tomato;
 }

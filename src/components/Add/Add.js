@@ -27,6 +27,7 @@ class Add extends Component {
                   onChange={this.handleValue}
                   value={this.state.inputValue}
                   onKeyDown={this.intputEnter}
+                  disabled={!!this.props.removeTasks.length}
                />
                <button
                   className='btnAdd'
