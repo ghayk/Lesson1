@@ -3,3 +3,51 @@
    margin: 5px;
    user-select: none;
 }
+.col{
+display: flex;
+justify-content: center;
+}
+.block{
+   position: relative;
+   width: 100px;
+   height: 100px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background: rgb(216, 216, 216);
+   border-radius: 7px;
+
+}
+.btnClose{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 0;
+   height: 0;
+   color: rgb(255, 0, 0);
+   font-size: 25px;
+   position: absolute;
+   top: 5px;
+   right: 5px;
+}
+.btnClose:active{
+   color: white;
+}
+.inputAdd, .btnAdd,.btn-dell-tasks{
+   border: 1px solid #ccc;
+   border-radius: 7px;
+   padding: 5px 15px;
+}
+.btnAdd{
+   margin:0 0 0 10px;
+}
+.btnAdd:active{
+   background-color: #ccc;
+}
+.btn-dell-tasks{
+   background-color: red;
+   color: white;
+}
+.btn-dell-tasks:active{
+   background: tomato;
+}
