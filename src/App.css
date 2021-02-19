@@ -6,16 +6,20 @@
 .col{
 display: flex;
 justify-content: center;
+
 }
 .block{
    position: relative;
    width: 100px;
    height: 100px;
-   display: flex;
+   display:flex;
    justify-content: center;
    align-items: center;
-   background: rgb(216, 216, 216);
+   background: url(https://livewallpaperhd.com/wp-content/uploads/2018/05/Green-Colour-Background-Wallpaper-HD.jpg)-10px 0/200px no-repeat;
    border-radius: 7px;
+   font-size: 17px;
+   font-weight: 500;
+   color: rgb(255, 255, 255);
 
 }
 .btnClose{
@@ -33,7 +37,7 @@ justify-content: center;
 .btnClose:active{
    color: white;
 }
-.inputAdd, .btnAdd,.btn-dell-tasks{
+.inputAdd, .btnAdd,.btn-dell-tasks,.btn-dell-all-tasks{
    border: 1px solid #ccc;
    border-radius: 7px;
    padding: 5px 15px;
@@ -44,10 +48,10 @@ justify-content: center;
 .btnAdd:active{
    background-color: #ccc;
 }
-.btn-dell-tasks{
+.btn-dell-tasks,.btn-dell-all-tasks{
    background-color: red;
    color: white;
 }
-.btn-dell-tasks:active{
+.btn-dell-tasks:active,.btn-dell-all-tasks:active{
    background: tomato;
 }
