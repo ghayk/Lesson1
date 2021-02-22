@@ -4,18 +4,29 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWindowClose } from '@fortawesome/free-solid-svg-icons'
 
 class Task extends PureComponent {
-  render() {   
-    const { CloseTask, togleId, DellTasks, DellAll,Disabled } = this.props
+  render() {
+    const {
+      CloseTask,
+      togleId,
+      DellTasks,     
+      Disabled,
+      CheckedAll,
+      checked,
+    } = this.props
     const tasks = this.props.tasks.map((item) => {
       return (
         <Col key={item._id} className="col" xs={6} sm={4} md={3} lg={2}>
-          <div className={`block ${item.checked?'checked':''}`}>
+          <div className={`block ${item.checked ? 'checked' : ''}`}>
             {item.title}
-            <button disabled={Disabled()} className="btnClose" onClick={() => CloseTask(item._id)}>
+            <button
+              disabled={Disabled()}
+              className="btnClose"
+              onClick={() => CloseTask(item._id)}
+            >
               <FontAwesomeIcon icon={faWindowClose} />
             </button>
             &nbsp;
-            <input type="checkbox" onClick={() => togleId(item._id)} />
+            <input checked={item.checked} type="checkbox" onClick={() => togleId(item._id)} />
           </div>
         </Col>
       )
@@ -31,10 +42,10 @@ class Task extends PureComponent {
             <button className="btn-dell-tasks" onClick={DellTasks}>
               Dell tasks
             </button>
-          </Col>
+          </Col>      
           <Col>
-            <button onClick={DellAll} className="btn-dell-all-tasks">
-              Dell all
+            <button onClick={CheckedAll} className="btn-dell-all-tasks">
+              {checked?'Checked All':'Remove Checked'}
             </button>
           </Col>
         </Row>
