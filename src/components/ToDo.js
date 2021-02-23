@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import Task from '../Task/Task'
-import Add from '../Add/Add'
-import id from '../Id/IdGenerator'
+import Task from './Task'
+import Add from './Add'
+import id from '../helpers/IdGenerator'
 
 class ToDo extends Component {
   state = {
@@ -11,7 +11,7 @@ class ToDo extends Component {
       { title: 'Task 3', _id: id(), checked: false },
       { title: 'Task 4', _id: id(), checked: false },
     ],
-    checked:true
+    checked: true,
   }
   CloseTask = (id) => {
     const tasks = [...this.state.tasks]
@@ -42,7 +42,7 @@ class ToDo extends Component {
   DellTasks = () => {
     let tasks = [...this.state.tasks]
     tasks = tasks.filter((item) => item.checked === false)
-    this.setState({ tasks,checked:true})
+    this.setState({ tasks, checked: true })
   }
   Disabled = () => {
     let k = 0
@@ -64,7 +64,7 @@ class ToDo extends Component {
       } else item.checked = false
       return item
     })
-    this.setState({ tasks ,checked:!checked})    
+    this.setState({ tasks, checked: !checked })
   }
 
   render() {

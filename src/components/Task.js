@@ -4,11 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWindowClose } from '@fortawesome/free-solid-svg-icons'
 
 class Task extends PureComponent {
+  
   render() {
     const {
       CloseTask,
       togleId,
-      DellTasks,     
+      DellTasks,
       Disabled,
       CheckedAll,
       checked,
@@ -26,7 +27,11 @@ class Task extends PureComponent {
               <FontAwesomeIcon icon={faWindowClose} />
             </button>
             &nbsp;
-            <input checked={item.checked} type="checkbox" onClick={() => togleId(item._id)} />
+            <input
+              checked={item.checked}
+              type="checkbox"
+              onChange={() => togleId(item._id)}
+            />
           </div>
         </Col>
       )
@@ -42,10 +47,10 @@ class Task extends PureComponent {
             <button className="btn-dell-tasks" onClick={DellTasks}>
               Dell tasks
             </button>
-          </Col>      
+          </Col>
           <Col>
             <button onClick={CheckedAll} className="btn-dell-all-tasks">
-              {checked?'Checked All':'Remove Checked'}
+              {checked ? 'Checked All' : 'Remove Checked'}
             </button>
           </Col>
         </Row>
