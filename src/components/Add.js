@@ -19,7 +19,7 @@ class Add extends Component {
   }
   render() {
     return (
-      <div>
+      <div className='addTask'>
         <input
           className="inputAdd"
           onChange={this.handleValue}

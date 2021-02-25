@@ -1,61 +1,89 @@
-*{
-   /* border: 1px solid #000; */
-   margin: 5px;
-   user-select: none;
+* {
+  /* border: 1px solid #000; */
+  margin: 5px;
+  user-select: none;
 }
-.col{
-display: flex;
-justify-content: center;
-
+body {
+  background:url(http://getwallpapers.com/wallpaper/full/d/f/1/1364587-white-wood-background-wallpaper-2048x2048-for-xiaomi.jpg)0 0 /100%;
 }
-.block{
-   position: relative;
-   width: 100px;
-   height: 100px;
-   display:flex;
-   justify-content: center;
-   align-items: center;
-   background: url(https://livewallpaperhd.com/wp-content/uploads/2018/05/Green-Colour-Background-Wallpaper-HD.jpg)-10px 0/200px no-repeat;
-   border-radius: 7px;
-   font-size: 17px;
-   font-weight: 500;
-   color: rgb(255, 255, 255);
-
+.col {
+  display: flex;
+  justify-content: center;
 }
-.btnClose{
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   width: 0;
-   height: 0;
-   color: rgb(255, 0, 0);
-   font-size: 25px;
-   position: absolute;
-   top: 5px;
-   right: 5px;
+.block {
+  position: relative;
+  width: 150px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: url(https://st3.depositphotos.com/10480078/14776/i/950/depositphotos_147765269-stock-photo-black-wall-with-cracks-texture.jpg)0 0 / 300px;
+  border-radius: 7px;
+  font-size: 17px;
+  font-weight: 500;
+  color: rgb(228, 228, 228);
 }
-.btnClose:active{
-   color: white;
+.addTask {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
-.inputAdd, .btnAdd,.btn-dell-tasks,.btn-dell-all-tasks{
-   border: 1px solid #ccc;
-   border-radius: 7px;
-   padding: 5px 15px;
+.btnClose {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 0;
+  height: 0;
+  color: rgb(255, 0, 0);
+  font-size: 25px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }
-.btnAdd{
-   margin:0 0 0 10px;
+.checkbox{
+  cursor: pointer;
+  position: absolute;
+  left: 10px;
+  top: 10px;
 }
-.btnAdd:active{
-   background-color: #ccc;
+.btnClose:active {
+  color: rgba(255, 0, 0,0.5);
 }
-.btn-dell-tasks,.btn-dell-all-tasks{
-   background-color: red;
-   color: white;
+.inputAdd,
+.btnAdd,
+.btn-dell-tasks,
+.SelectAll { 
+  border-radius: 7px;
+  padding: 5px 15px;
 }
-.btn-dell-tasks:active,.btn-dell-all-tasks:active{
-   background: tomato;
+.inputAdd{
+  width: 40%;
 }
-.block.checked{ 
-   opacity: 0.8;
-   transform: scale(1.05,1.05);
-} 
+.btnAdd {
+  margin: 0 0 0 10px;
+}
+.btnAdd:active {
+  background-color: rgba(0, 255, 0, 0.5);
+  color: white;
+}
+.btn-dell-tasks{
+  background-color: red;
+  color: white;
+  margin: 0 10px;
+}
+.btn-dell-tasks:active{
+  background: rgba(255, 0, 0, 0.5);
+}
+.SelectAll{
+  background-color: rgb(0, 166, 255);
+}
+.SelectAll:active{
+  background-color:  rgba(0, 166, 255, 0.5);
+}
+.block.checked {
+  border: 2px solid rgba(0, 166, 255, 0.8);   
+}
+.empty{
+  display: none;
+}

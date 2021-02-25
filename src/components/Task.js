@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWindowClose } from '@fortawesome/free-solid-svg-icons'
 
 class Task extends PureComponent {
-  
   render() {
     const {
       CloseTask,
@@ -12,7 +11,7 @@ class Task extends PureComponent {
       DellTasks,
       Disabled,
       CheckedAll,
-      checked,
+      checked,      
     } = this.props
     const tasks = this.props.tasks.map((item) => {
       return (
@@ -25,9 +24,9 @@ class Task extends PureComponent {
               onClick={() => CloseTask(item._id)}
             >
               <FontAwesomeIcon icon={faWindowClose} />
-            </button>
-            &nbsp;
+            </button>        
             <input
+              className='checkbox'
               checked={item.checked}
               type="checkbox"
               onChange={() => togleId(item._id)}
@@ -40,17 +39,16 @@ class Task extends PureComponent {
     return (
       <Container>
         <Row className="justify-content-center ">
-          {this.props.tasks.length === 0 ? <p>list is empty</p> : tasks}
+          {this.props.tasks.length === 0 ? <p style={{color:'white'}}>list is empty</p> : tasks}
         </Row>
         <Row>
-          <Col>
-            <button className="btn-dell-tasks" onClick={DellTasks}>
+          <Col className={this.props.tasks.length === 0?'empty':''}>
+            <button 
+            className="btn-dell-tasks" onClick={DellTasks}>
               Dell tasks
             </button>
-          </Col>
-          <Col>
-            <button onClick={CheckedAll} className="btn-dell-all-tasks">
-              {checked ? 'Checked All' : 'Remove Checked'}
+            <button className='SelectAll' disabled={!!!this.props.tasks.length} onClick={CheckedAll}>
+              {checked ? 'Select All' : 'Remuve all selected'}
             </button>
           </Col>
         </Row>

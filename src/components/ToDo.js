@@ -69,7 +69,7 @@ class ToDo extends Component {
 
   render() {
     return (
-      <div>
+      <>
         <Add
           AddTask={this.AddTask}
           removeTasks={this.state.removeTasks}
@@ -85,7 +85,7 @@ class ToDo extends Component {
           Disabled={this.Disabled}
           CheckedAll={this.CheckedAll}
         />
-      </div>
+      </>
     )
   }
 }
