@@ -24,7 +24,7 @@ body {
   font-weight: 500;
   color: rgb(228, 228, 228);
 }
-.addTask {
+.addTask {  
   width: 100%;
   display: flex;
   justify-content: center;
@@ -54,14 +54,16 @@ body {
 .btnAdd,
 .btn-dell-tasks,
 .SelectAll { 
+  margin-bottom: 10px;
   border-radius: 7px;
   padding: 5px 15px;
 }
 .inputAdd{
   width: 40%;
+  margin-right: 5px;
 }
-.btnAdd {
-  margin: 0 0 0 10px;
+.inputAdd:focus{
+  box-shadow: 0 4px 8px rgb(0, 0, 0);
 }
 .btnAdd:active {
   background-color: rgba(0, 255, 0, 0.5);
@@ -70,12 +72,17 @@ body {
 .btn-dell-tasks{
   background-color: red;
   color: white;
-  margin: 0 10px;
 }
 .btn-dell-tasks:active{
   background: rgba(255, 0, 0, 0.5);
 }
+
+.SelectAll,.btn-dell-tasks{
+  width: 130px;
+  padding: 5px 7px;
+}
 .SelectAll{
+  color: white;
   background-color: rgb(0, 166, 255);
 }
 .SelectAll:active{
@@ -86,4 +93,11 @@ body {
 }
 .empty{
   display: none;
+}
+.ConBtn{
+  position:fixed;
+  top: 10px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
 }

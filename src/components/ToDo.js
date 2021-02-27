@@ -11,7 +11,7 @@ class ToDo extends Component {
       { title: 'Task 3', _id: id(), checked: false },
       { title: 'Task 4', _id: id(), checked: false },
     ],
-    checked: true,
+    checked: false,
   }
   CloseTask = (id) => {
     const tasks = [...this.state.tasks]
@@ -42,31 +42,22 @@ class ToDo extends Component {
   DellTasks = () => {
     let tasks = [...this.state.tasks]
     tasks = tasks.filter((item) => item.checked === false)
-    this.setState({ tasks, checked: true })
+    this.setState({ tasks, checked: false })
   }
-  Disabled = () => {
-    let k = 0
-    this.state.tasks.forEach((i) => {
-      if (i.checked) {
-        k++
-      }
-    })
-    if (k > 0) {
-      return true
-    } else return false
+  Disabled = () => {    
+  return this.state.tasks.some(item=>item.checked===true)   
   }
   CheckedAll = () => {
     let checked = this.state.checked
     let tasks = this.state.tasks
     tasks = tasks.map((item) => {
       if (checked) {
-        item.checked = true
-      } else item.checked = false
+        item.checked = false
+      } else item.checked = true
       return item
     })
     this.setState({ tasks, checked: !checked })
   }
-
   render() {
     return (
       <>

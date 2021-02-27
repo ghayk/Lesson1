@@ -1,9 +1,14 @@
+import PropTypes from "prop-types";
 import React, { Component } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 class Add extends Component {
-  state = {
-    inputValue: '',
+  constructor(props){
+    super(props)
+    this.inputRef = React.createRef()
+    this.state = {
+      inputValue: '',
+    }
   }
   handleValue = (e) => {
     this.setState({ inputValue: e.target.value })
@@ -17,6 +22,9 @@ class Add extends Component {
       this.AddTask()
     }
   }
+  componentDidMount(){
+    this.inputRef.current.focus()
+  }
   render() {
     return (
       <div className='addTask'>
@@ -26,6 +34,7 @@ class Add extends Component {
           value={this.state.inputValue}
           onKeyDown={this.intputEnter}
           disabled={this.props.Disabled()}
+          ref={this.inputRef}
         />
         <button
           className="btnAdd"
@@ -38,4 +47,11 @@ class Add extends Component {
     )
   }
 }
+
+Add.propTypes = {
+  AddTask: PropTypes.func,
+  Disabled: PropTypes.func
+}
+
+
 export default Add
