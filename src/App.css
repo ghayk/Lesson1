@@ -4,30 +4,39 @@
   user-select: none;
 }
 body {
-  background:url(http://getwallpapers.com/wallpaper/full/d/f/1/1364587-white-wood-background-wallpaper-2048x2048-for-xiaomi.jpg)0 0 /100%;
+  background: url(http://getwallpapers.com/wallpaper/full/d/f/1/1364587-white-wood-background-wallpaper-2048x2048-for-xiaomi.jpg)
+    0 0 /100%;
 }
 .col {
-  display: flex;
-  justify-content: center;
+  min-width: 250px;
+  min-height: 300px;
 }
 .block {
   position: relative;
-  width: 150px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  padding-top: 15px;
+  justify-content: flex-start;
   align-items: center;
-  background: url(https://st3.depositphotos.com/10480078/14776/i/950/depositphotos_147765269-stock-photo-black-wall-with-cracks-texture.jpg)0 0 / 300px;
+  background: url(https://st3.depositphotos.com/10480078/14776/i/950/depositphotos_147765269-stock-photo-black-wall-with-cracks-texture.jpg)
+    0 0 / 300px;
   border-radius: 7px;
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 500;
   color: rgb(228, 228, 228);
 }
-.addTask {  
+.conDescription {
+  font-size: 15px;
+  padding: 0 15px;
+  text-align: left;
+}
+.addTask {
   width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 .btnClose {
   display: flex;
@@ -41,63 +50,72 @@ body {
   top: 5px;
   right: 5px;
 }
-.checkbox{
+.checkbox {
   cursor: pointer;
   position: absolute;
   left: 10px;
   top: 10px;
 }
 .btnClose:active {
-  color: rgba(255, 0, 0,0.5);
+  color: rgba(255, 0, 0, 0.5);
 }
 .inputAdd,
 .btnAdd,
 .btn-dell-tasks,
-.SelectAll { 
+.SelectAll {
   margin-bottom: 10px;
   border-radius: 7px;
   padding: 5px 15px;
 }
-.inputAdd{
+.inputAdd {
   width: 40%;
   margin-right: 5px;
 }
-.inputAdd:focus{
+.inputAdd:focus {
   box-shadow: 0 4px 8px rgb(0, 0, 0);
 }
 .btnAdd:active {
   background-color: rgba(0, 255, 0, 0.5);
   color: white;
 }
-.btn-dell-tasks{
+.btn-dell-tasks {
   background-color: red;
   color: white;
 }
-.btn-dell-tasks:active{
+.btn-dell-tasks:active {
   background: rgba(255, 0, 0, 0.5);
 }
 
-.SelectAll,.btn-dell-tasks{
+.SelectAll,
+.btn-dell-tasks {
   width: 130px;
   padding: 5px 7px;
 }
-.SelectAll{
+.SelectAll {
   color: white;
   background-color: rgb(0, 166, 255);
 }
-.SelectAll:active{
-  background-color:  rgba(0, 166, 255, 0.5);
+.SelectAll:active {
+  background-color: rgba(0, 166, 255, 0.5);
 }
 .block.checked {
-  border: 2px solid rgba(0, 166, 255, 0.8);   
+  border: 2px solid rgba(0, 166, 255, 0.8);
 }
-.empty{
+.empty {
   display: none;
 }
-.ConBtn{
-  position:fixed;
+.ConBtn {
+  position: fixed;
   top: 10px;
   left: 0;
+  display: flex;
+  flex-direction: column;
+}
+.conTrashEdit {
+  position: absolute;
+  bottom: 10px;
+}
+.conInputAdd{
   display: flex;
   flex-direction: column;
 }

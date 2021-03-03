@@ -2,14 +2,37 @@ import React, { Component } from 'react'
 import Task from './Task'
 import Add from './Add'
 import id from '../helpers/IdGenerator'
-
 class ToDo extends Component {
   state = {
     tasks: [
-      { title: 'Task 1', _id: id(), checked: false },
-      { title: 'Task 2', _id: id(), checked: false },
-      { title: 'Task 3', _id: id(), checked: false },
-      { title: 'Task 4', _id: id(), checked: false },
+      {
+        title: 'Task 1',
+        description:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus magni harum ut quam laboriosam facere placeat ipsam a vel neque.',
+        _id: id(),
+        checked: false,
+      },
+      {
+        title: 'Task 2',
+        description:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus magni harum ut quam laboriosam facere placeat ipsam a vel neque.',
+        _id: id(),
+        checked: false,
+      },
+      {
+        title: 'Task 3',
+        description:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus magni harum ut quam laboriosam facere placeat ipsam a vel neque.',
+        _id: id(),
+        checked: false,
+      },
+      {
+        title: 'Task 4',
+        description:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus magni harum ut quam laboriosam facere placeat ipsam a vel neque.',
+        _id: id(),
+        checked: false,
+      },
     ],
     checked: false,
   }
@@ -19,11 +42,13 @@ class ToDo extends Component {
       tasks: tasks.filter((item) => item._id !== id),
     })
   }
-  AddTask = (inputValue) => {
+  AddTask = (titleValue, descriptionValue) => {
     const tasks = [...this.state.tasks]
-    inputValue &&
+    titleValue &&
+      descriptionValue &&
       tasks.push({
-        title: inputValue,
+        title: titleValue,
+        description: descriptionValue,
         _id: id(),
         checked: false,
       })
@@ -44,8 +69,8 @@ class ToDo extends Component {
     tasks = tasks.filter((item) => item.checked === false)
     this.setState({ tasks, checked: false })
   }
-  Disabled = () => {    
-  return this.state.tasks.some(item=>item.checked===true)   
+  Disabled = () => {
+    return this.state.tasks.some((item) => item.checked === true)
   }
   CheckedAll = () => {
     let checked = this.state.checked
@@ -57,6 +82,17 @@ class ToDo extends Component {
       return item
     })
     this.setState({ tasks, checked: !checked })
+  }
+  EditTask = (title, description, id) => {
+    let tasks = [...this.state.tasks]
+    tasks = tasks.map((item) => {
+      if (item._id === id) {
+        item.title = title
+        item.description = description
+      }
+      return item
+    })
+    this.setState({ tasks })
   }
   render() {
     return (
@@ -75,6 +111,7 @@ class ToDo extends Component {
           DellTasks={this.DellTasks}
           Disabled={this.Disabled}
           CheckedAll={this.CheckedAll}
+          EditTask={this.EditTask}
         />
       </>
     )

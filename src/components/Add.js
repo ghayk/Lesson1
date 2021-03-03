@@ -1,48 +1,65 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 class Add extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
-    this.inputRef = React.createRef()
+    this.titleRef = React.createRef()
     this.state = {
-      inputValue: '',
+      titleValue: '',
+      descriptionValue: '',
     }
   }
   handleValue = (e) => {
-    this.setState({ inputValue: e.target.value })
+    if (e.target.name === 'title') {
+      this.setState({ titleValue: e.target.value })
+    } else this.setState({ descriptionValue: e.target.value })
   }
   AddTask = () => {
-    this.props.AddTask(this.state.inputValue)
-    this.setState({ inputValue: '' })
+    this.props.AddTask(this.state.titleValue,this.state.descriptionValue)
+    this.setState({ titleValue: '' ,descriptionValue: ''})
   }
   intputEnter = (e) => {
     if (e.key === 'Enter') {
       this.AddTask()
     }
   }
-  componentDidMount(){
-    this.inputRef.current.focus()
+  componentDidMount() {
+    this.titleRef.current.focus()
   }
   render() {
     return (
-      <div className='addTask'>
+      <div className="addTask">
         <input
+          name="title"
+          placeholder="Title"
           className="inputAdd"
           onChange={this.handleValue}
-          value={this.state.inputValue}
+          value={this.state.titleValue}
           onKeyDown={this.intputEnter}
           disabled={this.props.Disabled()}
-          ref={this.inputRef}
+          ref={this.titleRef}
+          />
+        <textarea
+          name="description"
+          onChange={this.handleValue}
+          className="inputAdd"
+          onKeyDown={this.intputEnter}
+          placeholder="Description"
+          disabled={this.props.Disabled()}
+          value={this.state.descriptionValue}
+          
         />
-        <button
-          className="btnAdd"
-          onClick={this.AddTask}
-          disabled={!!!this.state.inputValue}
-        >
-          <FontAwesomeIcon icon={faPlus} />
-        </button>
+        <div>
+          <button
+            className="btnAdd"
+            onClick={this.AddTask}
+            disabled={!!!this.state.titleValue || !!!this.state.descriptionValue}
+          >
+            <FontAwesomeIcon icon={faPlus} />
+          </button>
+        </div>
       </div>
     )
   }
@@ -50,8 +67,7 @@ class Add extends Component {
 
 Add.propTypes = {
   AddTask: PropTypes.func,
-  Disabled: PropTypes.func
+  Disabled: PropTypes.func,
 }
-
 
 export default Add
