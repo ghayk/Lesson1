@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ConfirmDellModal from './ConfirmDellModal'
-import EditModal from './EditModal'
+import AddAndEditModal from './AddAndEditModal'
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
@@ -10,6 +10,7 @@ class Task extends PureComponent {
   state = {
     confirm: false,
     edit: false,
+    AddOrEdit: '',
     task: {},
   }
   confirmFoo = () => {
@@ -18,7 +19,11 @@ class Task extends PureComponent {
   editFoo = (id) => {
     let tasks = [...this.props.tasks]
     tasks = tasks.filter((item) => item._id === id)
-    this.setState({ task: tasks[0], edit: !this.state.edit })
+    this.setState({ task: tasks[0], edit: !this.state.edit, AddOrEdit: 'Edit' })
+  }
+  addFoo = () => {
+    const task = { title: '', description: '', _id: this.props.id() }
+    this.setState({ task, edit: !this.state.edit, AddOrEdit: 'Add' })
   }
   render() {
     const {
@@ -79,6 +84,13 @@ class Task extends PureComponent {
           className={`ConBtn ${this.props.tasks.length === 0 ? 'empty' : ''}`}
         >
           <button
+            onClick={() => this.addFoo('edit')}
+            style={{ background: '#0a5' }}
+            className="SelectAll"
+          >
+            Add
+          </button>
+          <button
             className="SelectAll"
             style={{ display: this.props.tasks.length ? 'block' : 'none' }}
             onClick={CheckedAll}
@@ -99,11 +111,13 @@ class Task extends PureComponent {
           confirm={this.state.confirm}
         />
         {this.state.edit && (
-          <EditModal
+          <AddAndEditModal
             EditTask={this.props.EditTask}
             task={this.state.task}
             edit={this.state.edit}
             editFoo={this.editFoo}
+            AddOrEdit={this.state.AddOrEdit}
+            AddTask={this.props.AddTask}
           />
         )}
       </Container>
@@ -111,12 +125,14 @@ class Task extends PureComponent {
   }
 }
 Task.propTypes = {
+  AddTask: PropTypes.func,
   CheckedAll: PropTypes.func.isRequired,
   CloseTask: PropTypes.func.isRequired,
   DellTasks: PropTypes.func.isRequired,
   Disabled: PropTypes.func.isRequired,
   EditTask: PropTypes.func.isRequired,
   checked: PropTypes.bool.isRequired,
+  id: PropTypes.func,
   tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
   togleId: PropTypes.func.isRequired,
 }

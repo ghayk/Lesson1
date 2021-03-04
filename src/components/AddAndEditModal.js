@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
 
-class EditModal extends React.Component {
+class AddAndEditModal extends React.Component {
   state = {
     ...this.props.task,
   }
@@ -20,6 +20,11 @@ class EditModal extends React.Component {
     )
     this.props.editFoo()
   }
+  AddTask = () => {
+    if (!this.state.title || !this.state.description) return
+    this.props.AddTask(this.state.title, this.state.description, this.state._id)
+    this.props.editFoo()
+  }
   render() {
     return (
       <>
@@ -28,13 +33,16 @@ class EditModal extends React.Component {
           onHide={this.handleClose}
           animation={false}
         >
+          <Modal.Header closeButton>
+            <Modal.Title>{this.props.AddOrEdit}</Modal.Title>
+          </Modal.Header>
           <Modal.Body className="d-flex flex-column align-items-center fa-2x">
             <input
               value={this.state.title}
               onChange={this.handleValue}
               name="title"
               placeholder="Title"
-              className="inputAdd w-75 text-center"
+              className="inputAdd w-75"
             />
             <textarea
               value={this.state.description}
@@ -52,8 +60,13 @@ class EditModal extends React.Component {
             >
               Cancel
             </Button>
-            <Button variant="danger" onClick={this.EditTask}>
-              Save
+            <Button
+              variant="success"
+              onClick={
+                this.props.AddOrEdit === 'Edit' ? this.EditTask : this.AddTask
+              }
+            >
+              {this.props.AddOrEdit}
             </Button>
           </Modal.Footer>
         </Modal>
@@ -62,10 +75,12 @@ class EditModal extends React.Component {
   }
 }
 
-EditModal.propTypes = {
+AddAndEditModal.propTypes = {
+  AddOrEdit: PropTypes.string,
+  AddTask: PropTypes.func,
   EditTask: PropTypes.func,
   edit: PropTypes.bool,
   editFoo: PropTypes.func,
   task: PropTypes.object,
 }
-export default EditModal
+export default AddAndEditModal

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Task from './Task'
-import Add from './Add'
 import id from '../helpers/IdGenerator'
 class ToDo extends Component {
   state = {
@@ -42,14 +41,14 @@ class ToDo extends Component {
       tasks: tasks.filter((item) => item._id !== id),
     })
   }
-  AddTask = (titleValue, descriptionValue) => {
+  AddTask = (titleValue, descriptionValue, id) => {
     const tasks = [...this.state.tasks]
     titleValue &&
       descriptionValue &&
       tasks.push({
         title: titleValue,
         description: descriptionValue,
-        _id: id(),
+        _id: id,
         checked: false,
       })
     this.setState({ tasks })
@@ -97,11 +96,7 @@ class ToDo extends Component {
   render() {
     return (
       <>
-        <Add
-          AddTask={this.AddTask}
-          removeTasks={this.state.removeTasks}
-          Disabled={this.Disabled}
-        />
+        <h1 style={{ textAlign: 'center', color: 'white' }}>ToDo list</h1>
         <Task
           CloseTask={this.CloseTask}
           tasks={this.state.tasks}
@@ -112,6 +107,8 @@ class ToDo extends Component {
           Disabled={this.Disabled}
           CheckedAll={this.CheckedAll}
           EditTask={this.EditTask}
+          AddTask={this.AddTask}
+          id={id}
         />
       </>
     )
