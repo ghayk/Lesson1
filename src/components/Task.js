@@ -22,8 +22,15 @@ class Task extends PureComponent {
     this.setState({ task: tasks[0], edit: !this.state.edit, AddOrEdit: 'Edit' })
   }
   addFoo = () => {
-    const task = { title: '', description: '', _id: this.props.id() }
+    const task = {
+      title: '',
+      description: '',
+      _id: this.props.id(),     
+    }
     this.setState({ task, edit: !this.state.edit, AddOrEdit: 'Add' })
+  }
+  checked = id => {
+    return this.props.selectedId.includes(id)
   }
   render() {
     const {
@@ -32,14 +39,15 @@ class Task extends PureComponent {
       DellTasks,
       Disabled,
       CheckedAll,
-      checked,
+      selectedId,         
     } = this.props
     const tasks = this.props.tasks.map((item) => {
       return (
         <Col key={item._id} className="col" xs={6} sm={4} md={3} lg={2}>
-          <div className={`block ${item.checked ? 'checked' : ''}`}>
+          <div className={'block'}>
             <div className="conTitle"> {item.title}</div>
             <div className="conDescription">{item.description}</div>
+            <div className="conDescription">{item.date.slice(0, 10)}</div>
             <div className="conTrashEdit">
               <Button
                 className="mr-2"
@@ -60,17 +68,17 @@ class Task extends PureComponent {
               </Button>
             </div>
             <input
-              className="checkbox"
-              checked={item.checked}
+            checked={selectedId.includes(item._id)}           
+              className="checkbox"              
               type="checkbox"
               onChange={() => togleId(item._id)}
-            />
+            />            
           </div>
         </Col>
       )
     })
 
-    return (
+    return (      
       <Container>
         <Row className="justify-content-center ">
           {this.props.tasks.length === 0 ? (
@@ -87,6 +95,7 @@ class Task extends PureComponent {
             onClick={() => this.addFoo('edit')}
             style={{ background: '#0a5' }}
             className="SelectAll"
+            disabled={Disabled()}
           >
             Add
           </button>
@@ -95,12 +104,12 @@ class Task extends PureComponent {
             style={{ display: this.props.tasks.length ? 'block' : 'none' }}
             onClick={CheckedAll}
           >
-            {checked ? 'Remove Selected' : 'Select All'}
+           Select All
           </button>
           <button
             className="btn-dell-tasks"
             onClick={this.confirmFoo}
-            style={{ display: Disabled() ? 'block' : 'none' }}
+            style={{ display:selectedId.length ? 'block' : 'none' }}
           >
             Dell Selected
           </button>
@@ -126,14 +135,14 @@ class Task extends PureComponent {
 }
 Task.propTypes = {
   AddTask: PropTypes.func,
-  CheckedAll: PropTypes.func.isRequired,
-  CloseTask: PropTypes.func.isRequired,
-  DellTasks: PropTypes.func.isRequired,
-  Disabled: PropTypes.func.isRequired,
-  EditTask: PropTypes.func.isRequired,
-  checked: PropTypes.bool.isRequired,
+  CheckedAll: PropTypes.func,
+  CloseTask: PropTypes.func,
+  DellTasks: PropTypes.func,
+  Disabled: PropTypes.func,
+  EditTask: PropTypes.func,
+  checked: PropTypes.func,
   id: PropTypes.func,
-  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
-  togleId: PropTypes.func.isRequired,
+  tasks: PropTypes.arrayOf(PropTypes.object),
+  togleId: PropTypes.func.isRequired
 }
 export default Task

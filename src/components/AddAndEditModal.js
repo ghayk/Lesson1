@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
+import DatePicker from 'react-datepicker'
 
 class AddAndEditModal extends React.Component {
   state = {
     ...this.props.task,
+    date: new Date(),
   }
   handleClose = () => this.props.editFoo()
   handleValue = (e) => {
@@ -13,17 +15,17 @@ class AddAndEditModal extends React.Component {
   }
   EditTask = () => {
     if (!this.state.title || !this.state.description) return
-    this.props.EditTask(
-      this.state.title,
-      this.state.description,
-      this.state._id
-    )
+    let state = {...this.state}
+    this.props.EditTask(state)
     this.props.editFoo()
   }
   AddTask = () => {
     if (!this.state.title || !this.state.description) return
-    this.props.AddTask(this.state.title, this.state.description, this.state._id)
+    this.props.AddTask(this.state)
     this.props.editFoo()
+  }
+  hendleSetDate = (date) => {    
+    this.setState({ date })
   }
   render() {
     return (
@@ -50,6 +52,10 @@ class AddAndEditModal extends React.Component {
               name="description"
               className="inputAdd w-75"
               placeholder="Description"
+            />
+            <DatePicker
+              selected={this.state.date}
+              onChange={date => this.hendleSetDate(date)}
             />
           </Modal.Body>
           <Modal.Footer className="d-flex justify-content-center">
