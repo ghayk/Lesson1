@@ -87,6 +87,6 @@ AddAndEditModal.propTypes = {
   EditTask: PropTypes.func,
   edit: PropTypes.bool,
   editFoo: PropTypes.func,
-  task: PropTypes.object,
+  task: PropTypes.object
 }
 export default AddAndEditModal

@@ -44,7 +44,7 @@ class Task extends PureComponent {
     const tasks = this.props.tasks.map((item) => {
       return (
         <Col key={item._id} className="col" xs={6} sm={4} md={3} lg={2}>
-          <div className={'block'}>
+          <div className={`block ${selectedId.includes(item._id)?'checked':''}`}>
             <div className="conTitle"> {item.title}</div>
             <div className="conDescription">{item.description}</div>
             <div className="conDescription">{item.date.slice(0, 10)}</div>

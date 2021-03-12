@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import Task from './Task'
-import id from '../helpers/IdGenerator'
+import Task from '../Task'
+import id from '../../helpers/IdGenerator'
 class ToDo extends Component {
   state = {
     tasks: [],
@@ -133,8 +133,7 @@ class ToDo extends Component {
   }
   render() {
     return (
-      <>
-        <h1 style={{ textAlign: 'center', color: 'white' }}>ToDo list</h1>
+      <>        
         <Task
           CloseTask={this.CloseTask}
           tasks={this.state.tasks}
