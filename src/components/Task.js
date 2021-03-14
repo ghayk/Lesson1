@@ -149,7 +149,8 @@ Task.propTypes = {
   EditTask: PropTypes.func,
   checked: PropTypes.func,
   id: PropTypes.func,
+  selectedId: PropTypes.arrayOf(PropTypes.object),
   tasks: PropTypes.arrayOf(PropTypes.object),
-  togleId: PropTypes.func.isRequired,
+  togleId: PropTypes.func.isRequired
 }
 export default Task

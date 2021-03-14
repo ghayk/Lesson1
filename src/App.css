@@ -140,3 +140,7 @@ body {
   justify-content: center;
   align-items: center;
 }
+.ERR_404>img{
+  margin-top: -100px;
+  width: 100%;
+}

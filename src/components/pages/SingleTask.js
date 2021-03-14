@@ -1,13 +1,13 @@
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import React from 'react'
-
+    //const id = window.location.pathname.slice(6, 30)
 class SingleTask extends React.Component {
   state = {
     task: null,
   }
   componentDidMount() {
-    const id = window.location.pathname.slice(6, 30)
+    const id = this.props.match.params.id
     fetch(`http://localhost:3001/task/${id}`)
       .then((response) => response.json())
       .then((data) => {
@@ -15,7 +15,7 @@ class SingleTask extends React.Component {
       })
   }
   DelTask = () => {
-    const id = window.location.pathname.slice(6, 30)
+    const id = this.props.match.params.id
     fetch('http://localhost:3001/task/' + id, {
       method: 'DELETE',
     })
