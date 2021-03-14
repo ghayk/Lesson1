@@ -4,6 +4,7 @@ import ToDo from './components/pages/ToDo'
 import About from './components/pages/About'
 import Contact from './components/pages/Contact'
 import NavBar from './components/NavBar'
+import SingleTask from './components/pages/SingleTask'
 import { Switch, Route, Redirect } from 'react-router-dom'
 class App extends Component {
   render() {
@@ -19,6 +20,9 @@ class App extends Component {
           </Route>
           <Route path="/Contact" exact>
             <Contact />
+          </Route>
+          <Route path="/task/:id" exact>
+            <SingleTask />
           </Route>
          <Redirect to="/" />
         </Switch>

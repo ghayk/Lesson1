@@ -8,8 +8,8 @@ body {
     0 0 /100%;
 }
 .col {
-  min-width: 250px;
-  min-height: 300px;
+  min-width: 300px;
+  min-height: 400px;
 }
 .block {
   position: relative;
@@ -115,14 +115,28 @@ body {
   position: absolute;
   bottom: 10px;
 }
-.conInputAdd{
+.conInputAdd {
   display: flex;
   flex-direction: column;
 }
-.navbar>a{
+.navbar > a {
   color: rgb(232, 232, 232);
   font-weight: 500;
 }
-.navbar>a:hover{
+.navbar > a:hover {
   text-decoration: none;
+}
+.SingleTask{
+  display: flex;
+  justify-content: center;
+}
+.conSingleTask {
+  color: #ccc;
+  font-size: 20px;
+  max-width: 800px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

@@ -131,7 +131,7 @@ class ToDo extends Component {
         console.error('Edit Task Request', error)
       })
   }
-  render() {
+  render() {    
     return (
       <>        
         <Task

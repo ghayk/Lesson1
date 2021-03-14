@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import ConfirmDellModal from './ConfirmDellModal'
 import AddAndEditModal from './AddAndEditModal'
 import { Container, Row, Col, Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
 
@@ -25,11 +26,11 @@ class Task extends PureComponent {
     const task = {
       title: '',
       description: '',
-      _id: this.props.id(),     
+      _id: this.props.id(),
     }
     this.setState({ task, edit: !this.state.edit, AddOrEdit: 'Add' })
   }
-  checked = id => {
+  checked = (id) => {
     return this.props.selectedId.includes(id)
   }
   render() {
@@ -39,13 +40,19 @@ class Task extends PureComponent {
       DellTasks,
       Disabled,
       CheckedAll,
-      selectedId,         
+      selectedId,
     } = this.props
     const tasks = this.props.tasks.map((item) => {
       return (
         <Col key={item._id} className="col" xs={6} sm={4} md={3} lg={2}>
-          <div className={`block ${selectedId.includes(item._id)?'checked':''}`}>
-            <div className="conTitle"> {item.title}</div>
+          <div
+            className={`block ${
+              selectedId.includes(item._id) ? 'checked' : ''
+            }`}
+          >
+            <div className="conTitle">
+              <Link to={`/task/${item._id}`}>{item.title}</Link>
+            </div>
             <div className="conDescription">{item.description}</div>
             <div className="conDescription">{item.date.slice(0, 10)}</div>
             <div className="conTrashEdit">
@@ -68,17 +75,17 @@ class Task extends PureComponent {
               </Button>
             </div>
             <input
-            checked={selectedId.includes(item._id)}           
-              className="checkbox"              
+              checked={selectedId.includes(item._id)}
+              className="checkbox"
               type="checkbox"
               onChange={() => togleId(item._id)}
-            />            
+            />
           </div>
         </Col>
       )
     })
 
-    return (      
+    return (
       <Container>
         <Row className="justify-content-center ">
           {this.props.tasks.length === 0 ? (
@@ -104,12 +111,12 @@ class Task extends PureComponent {
             style={{ display: this.props.tasks.length ? 'block' : 'none' }}
             onClick={CheckedAll}
           >
-           Select All
+            Select All
           </button>
           <button
             className="btn-dell-tasks"
             onClick={this.confirmFoo}
-            style={{ display:selectedId.length ? 'block' : 'none' }}
+            style={{ display: selectedId.length ? 'block' : 'none' }}
           >
             Dell Selected
           </button>
@@ -143,6 +150,6 @@ Task.propTypes = {
   checked: PropTypes.func,
   id: PropTypes.func,
   tasks: PropTypes.arrayOf(PropTypes.object),
-  togleId: PropTypes.func.isRequired
+  togleId: PropTypes.func.isRequired,
 }
 export default Task
