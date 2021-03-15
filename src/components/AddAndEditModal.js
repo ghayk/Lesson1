@@ -14,9 +14,8 @@ class AddAndEditModal extends React.Component {
     this.setState({ [name]: value })
   }
   EditTask = () => {
-    if (!this.state.title || !this.state.description) return
-    let state = {...this.state}
-    this.props.EditTask(state)
+    if (!this.state.title || !this.state.description) return    
+    this.props.EditTask(this.state)
     this.props.editFoo()
   }
   AddTask = () => {

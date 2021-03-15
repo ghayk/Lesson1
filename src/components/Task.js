@@ -50,11 +50,11 @@ class Task extends PureComponent {
               selectedId.includes(item._id) ? 'checked' : ''
             }`}
           >
-            <div className="conTitle">
-              <Link to={`/task/${item._id}`}>{item.title}</Link>
-            </div>
+            <Link className="TaskLink" to={`/task/${item._id}`}>
+              <div className="conTitle">{item.title}</div>
+            </Link>
             <div className="conDescription">{item.description}</div>
-            <div className="conDescription">{item.date.slice(0, 10)}</div>
+            <div className="conDate">{item.date.slice(0, 10)}</div>
             <div className="conTrashEdit">
               <Button
                 className="mr-2"
@@ -151,6 +151,6 @@ Task.propTypes = {
   id: PropTypes.func,
   selectedId: PropTypes.arrayOf(PropTypes.object),
   tasks: PropTypes.arrayOf(PropTypes.object),
-  togleId: PropTypes.func.isRequired
+  togleId: PropTypes.func.isRequired,
 }
 export default Task

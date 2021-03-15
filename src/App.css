@@ -4,7 +4,7 @@
   user-select: none;
 }
 body {
-  background: url(http://getwallpapers.com/wallpaper/full/d/f/1/1364587-white-wood-background-wallpaper-2048x2048-for-xiaomi.jpg)
+  background: url(https://png.pngtree.com/thumb_back/fw800/back_our/20190628/ourmid/pngtree-simple-atmospheric-black-striped-background-image_277567.jpg)
     0 0 /100%;
 }
 .col {
@@ -126,7 +126,7 @@ body {
 .navbar > a:hover {
   text-decoration: none;
 }
-.SingleTask{
+.SingleTask {
   display: flex;
   justify-content: center;
 }
@@ -140,7 +140,46 @@ body {
   justify-content: center;
   align-items: center;
 }
-.ERR_404>img{
+.ERR_404 > img {
   margin-top: -100px;
   width: 100%;
 }
+.TaskLink {
+  color: #0af;
+}
+.TaskLinkn:hover {
+  text-decoration: none;
+  color: rgba(0, 170, 255, 0.5);
+}
+.conDate {
+  font-size: 15px;
+  position: absolute;
+  top: 0;
+  right: 5px;
+}
+/* ----------- */
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* ----------- */

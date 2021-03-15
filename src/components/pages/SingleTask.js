@@ -1,21 +1,28 @@
 import { Button } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
 import React from 'react'
-    //const id = window.location.pathname.slice(6, 30)
+import AddAndEditModal from '../AddAndEditModal'
+import Loading from '../Loading'
+
 class SingleTask extends React.Component {
   state = {
     task: null,
+    edit: false,
   }
   componentDidMount() {
     const id = this.props.match.params.id
     fetch(`http://localhost:3001/task/${id}`)
       .then((response) => response.json())
       .then((data) => {
+        if (data.error) {
+          throw data.error
+        }
         this.setState({ task: data })
       })
+      .catch(() => {
+        this.props.history.push('/404')
+      })
   }
-  DelTask = () => {
-    const id = this.props.match.params.id
+  DelTask = (id) => {
     fetch('http://localhost:3001/task/' + id, {
       method: 'DELETE',
     })
@@ -28,26 +35,84 @@ class SingleTask extends React.Component {
       .catch((error) => {
         console.error(error)
       })
+    this.props.history.push('/')
+  }
+  editFoo = () => {
+    this.setState({ edit: !this.state.edit })
+  }
+  EditTask = (task) => {
+    task.date = task.date.toISOString().slice(0, 10)
+    fetch('http://localhost:3001/task/' + task._id, {
+      method: 'PUT',
+      body: JSON.stringify(task),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          throw data.error
+        }
+        this.setState({ task: data })
+      })
+      .catch((error) => {
+        console.error('Edit Task Request', error)
+      })
+  }
+  GoToHome = () => {
+    this.props.history.push('/')
   }
   render() {
     const { task } = this.state
     if (!this.state.task) {
-      return <h2 style={{ color: '#ccc', textAlign: 'center' }}>loading...</h2>
+      return <Loading />
     }
     return (
-      <div className="SingleTask">
-        <div className='conSingleTask'>
-        <div className="STtitle">{task.title}</div>
-        <div className="STdescription">{task.description}</div>
-        <div className="STdate">{task.date.slice(0, 10)}</div>
-        <div>
-          <Link to='/'><Button>Go to Home</Button></Link>
-          <Link to="/">
-            <Button variant="danger" onClick={this.DelTask}>Dell</Button>
-          </Link>
+      <>
+        <div className="SingleTask">
+          <div className="conSingleTask">
+            <div className="STtitle">{'Title - ' + task.title}</div>
+            <div className="STdescription">
+              {'Description - ' + task.description}
+            </div>
+            <div className="STdate">{'Date - ' + task.date.slice(0, 10)}</div>
+            <div
+              style={{
+                display: 'flex',
+                marginTop: '20px',
+                width: '250px',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Button variant="outline-primary" onClick={this.GoToHome}>
+                Go to Home
+              </Button>
+              <Button
+                onClick={() => this.setState({ edit: !this.state.edit })}
+                variant="outline-success"
+              >
+                Edit
+              </Button>
+              <Button
+                variant="outline-danger"
+                onClick={() => this.DelTask(task._id)}
+              >
+                Dell
+              </Button>
+            </div>
+          </div>
         </div>
-        </div>
-      </div>
+        {this.state.edit && (
+          <AddAndEditModal
+            EditTask={this.EditTask}
+            task={this.state.task}
+            edit={this.state.edit}
+            editFoo={this.editFoo}
+            AddOrEdit={'Edit'}
+          />
+        )}
+      </>
     )
   }
 }

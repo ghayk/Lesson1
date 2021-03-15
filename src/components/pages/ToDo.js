@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import Task from '../Task'
 import id from '../../helpers/IdGenerator'
+import Loading from '../Loading'
 class ToDo extends Component {
   state = {
     tasks: [],
     checked: false,
     selectedId: [],
+    loading: false,
   }
   componentDidMount() {
+    this.setState({ loading: true })
     fetch('http://localhost:3001/task')
       .then((response) => response.json())
       .then((data) => {
@@ -17,8 +20,12 @@ class ToDo extends Component {
         this.setState({ tasks: data })
       })
       .catch((err) => console.error('ERR', err.message))
+      .finally(() => {
+        this.setState({ loading: false })
+      })
   }
   CloseTask = (id) => {
+    this.setState({ loading: true })
     fetch('http://localhost:3001/task/' + id, {
       method: 'DELETE',
     })
@@ -34,8 +41,12 @@ class ToDo extends Component {
       .catch((error) => {
         console.error(error)
       })
+      .finally(() => {
+        this.setState({ loading: false })
+      })
   }
   AddTask = (task) => {
+    this.setState({ loading: true })
     if (!task.title || !task.description) return
     const tasks = [...this.state.tasks]
     task.date = task.date.toISOString().slice(0, 10)
@@ -55,6 +66,9 @@ class ToDo extends Component {
         this.setState({ tasks })
       })
       .catch((err) => console.error('ERR', err.message))
+      .finally(() => {
+        this.setState({ loading: false })
+      })
   }
   togleId = (id) => {
     let selectedId = [...this.state.selectedId]
@@ -66,6 +80,7 @@ class ToDo extends Component {
     this.setState({ selectedId })
   }
   DellTasks = () => {
+    this.setState({ loading: true })
     fetch('http://localhost:3001/task', {
       method: 'PATCH',
       body: JSON.stringify({ tasks: Array.from(this.state.selectedId) }),
@@ -84,6 +99,9 @@ class ToDo extends Component {
         this.setState({ tasks, selectedId: [] })
       })
       .catch((e) => console.error(e))
+      .finally(() => {
+        this.setState({ loading: false })
+      })
   }
   Disabled = () => {
     return this.state.tasks.some((item) => item.checked === true)
@@ -104,6 +122,7 @@ class ToDo extends Component {
     }
   }
   EditTask = (task) => {
+    this.setState({ loading: true })
     task.date = task.date.toISOString().slice(0, 10)
     fetch('http://localhost:3001/task/' + task._id, {
       method: 'PUT',
@@ -120,8 +139,7 @@ class ToDo extends Component {
         let tasks = [...this.state.tasks]
         tasks = tasks.map((item) => {
           if (item._id === task._id) {
-            item.title = task.title
-            item.description = task.description
+            item = task
           }
           return item
         })
@@ -130,10 +148,16 @@ class ToDo extends Component {
       .catch((error) => {
         console.error('Edit Task Request', error)
       })
+      .finally(() => {
+        this.setState({ loading: false })
+      })
   }
-  render() {    
+  render() {
+    if (this.state.loading) {
+      return <Loading />
+    }
     return (
-      <>        
+      <>
         <Task
           CloseTask={this.CloseTask}
           tasks={this.state.tasks}
