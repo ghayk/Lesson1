@@ -98,28 +98,27 @@ class Task extends PureComponent {
         <div
           className={`ConBtn ${this.props.tasks.length === 0 ? 'empty' : ''}`}
         >
-          <button
+          <Button
             onClick={() => this.addFoo('edit')}
-            style={{ background: '#0a5' }}
-            className="SelectAll"
+            variant="outline-success"            
             disabled={Disabled()}
           >
             Add
-          </button>
-          <button
-            className="SelectAll"
+          </Button>
+          <Button
+           variant="outline-primary"
             style={{ display: this.props.tasks.length ? 'block' : 'none' }}
             onClick={CheckedAll}
           >
             Select All
-          </button>
-          <button
-            className="btn-dell-tasks"
+          </Button>
+          <Button
+            variant="outline-danger"
             onClick={this.confirmFoo}
             style={{ display: selectedId.length ? 'block' : 'none' }}
           >
             Dell Selected
-          </button>
+          </Button>
         </div>
         <ConfirmDellModal
           DellTasks={DellTasks}
@@ -148,8 +147,7 @@ Task.propTypes = {
   Disabled: PropTypes.func,
   EditTask: PropTypes.func,
   checked: PropTypes.func,
-  id: PropTypes.func,
-  selectedId: PropTypes.arrayOf(PropTypes.object),
+  id: PropTypes.func, 
   tasks: PropTypes.arrayOf(PropTypes.object),
   togleId: PropTypes.func.isRequired,
 }

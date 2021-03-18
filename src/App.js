@@ -9,16 +9,21 @@ import ERR_404 from './components/pages/ERR_404'
 import { Switch, Route, Redirect } from 'react-router-dom'
 class App extends Component {
   render() {
-    
+    const pages = [
+      { path: '/', comp: ToDo },
+      { path: '/About', comp: About },
+      { path: '/Contact', comp: Contact },
+      { path: '/task/:id', comp: SingleTask },
+      { path: '/404', comp: ERR_404 },
+    ]
+    const route = pages.map((item, index) => {
+      return <Route key={index} path={item.path} component={item.comp} exact />
+    })
     return (
       <>
-        <NavBar />
+        <NavBar />z
         <Switch>
-          <Route path="/" component={ToDo} exact />
-          <Route path="/About" component={About} exact />
-          <Route path="/Contact" component={Contact} exact />
-          <Route path="/task/:id" component={SingleTask} exact />
-          <Route path="/404" component={ERR_404} exact />
+          {route}
           <Redirect to="/404" />
         </Switch>
       </>

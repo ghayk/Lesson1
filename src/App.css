@@ -107,9 +107,13 @@ body {
 .ConBtn {
   position: absolute;
   top: 90px;
-  left: 0;
+  left: 10px;
   display: flex;
   flex-direction: column;
+}
+.ConBtn button {
+  width: 80px;
+  margin-top: 5px;
 }
 .conTrashEdit {
   position: absolute;
@@ -147,7 +151,7 @@ body {
 .TaskLink {
   color: #0af;
 }
-.TaskLinkn:hover {
+.TaskLink:hover {
   text-decoration: none;
   color: rgba(0, 170, 255, 0.5);
 }
@@ -164,7 +168,7 @@ body {
   height: 80px;
 }
 .lds-dual-ring:after {
-  content: " ";
+  content: ' ';
   display: block;
   width: 64px;
   height: 64px;
@@ -183,3 +187,6 @@ body {
   }
 }
 /* ----------- */
+textarea {
+  resize: none;
+}
