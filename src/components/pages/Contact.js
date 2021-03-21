@@ -28,7 +28,6 @@ class Contact extends React.Component {
       error: null,
     },
     errorMessage: '',
-    isValid: false,
   }
   handleValue = (e) => {
     const { name, value } = e.target
@@ -47,13 +46,11 @@ class Contact extends React.Component {
     }
     this.setState({
       [name]: { value, valid: !!!error, error },
-      isValid: !!!error,
     })
   }
   SaveContactInfo = () => {
     const formData = { ...this.state }
     delete formData.errorMessage
-    delete formData.isValid
     for (let key in formData) {
       formData[key] = formData[key].value
     }
@@ -75,6 +72,15 @@ class Contact extends React.Component {
       .catch((err) => {
         this.setState({ errorMessage: err.message })
       })
+  }
+  disabled = () => {
+    let k = []
+    const data = { ...this.state }
+    delete data.errorMessage
+    for (let key in data) {
+      k.push(data[key].valid)
+    }
+    return k.includes(false)
   }
   render() {
     const form = ContactForm.map((item, index) => {
@@ -113,7 +119,7 @@ class Contact extends React.Component {
           onClick={this.SaveContactInfo}
           style={{ margin: '10px auto', width: '100px' }}
           variant="primary"
-          disabled={!this.state.isValid}
+          disabled={this.disabled()}
         >
           Submit
         </Button>
