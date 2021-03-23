@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import ucFirst from '../../helpers/ucFirst'
 import { withRouter } from 'react-router-dom'
@@ -10,8 +10,8 @@ const ContactForm = [
   { name: 'message', as: 'textarea', controlId: 'formBasicEmail' },
 ]
 
-class Contact extends React.Component {
-  state = {
+function Contact(props) {
+  const [state, setState] = useState({
     name: {
       value: '',
       valid: false,
@@ -28,10 +28,11 @@ class Contact extends React.Component {
       error: null,
     },
     errorMessage: '',
-  }
-  handleValue = (e) => {
+  })
+
+  const handleValue = (e) => {
     const { name, value } = e.target
-    let error = ''
+    let error = null
     switch (name) {
       case 'name':
       case 'email':
@@ -44,17 +45,18 @@ class Contact extends React.Component {
         break
       default:
     }
-    this.setState({
-      [name]: { value, valid: !!!error, error },
+    setState({
+      ...state,
+      [name]: { value: value, valid: !!!error, error: error },
     })
   }
-  SaveContactInfo = () => {
-    const formData = { ...this.state }
+  const SaveContactInfo = () => {
+    const formData = { ...state }
     delete formData.errorMessage
     for (let key in formData) {
       formData[key] = formData[key].value
     }
-    if (!this.state.name || !this.state.email || !this.state.message) return
+    if (!state.name || !state.email || !state.message) return
     fetch('http://localhost:3001/form', {
       method: 'POST',
       body: JSON.stringify(formData),
@@ -67,65 +69,57 @@ class Contact extends React.Component {
         if (data.error) {
           throw data.error
         }
-        this.props.history.push('/')
+        props.history.push('/')
       })
       .catch((err) => {
-        this.setState({ errorMessage: err.message })
+        setState({ ...state, errorMessage: err.message })
       })
   }
-  disabled = () => {
-    let k = []
-    const data = { ...this.state }
-    delete data.errorMessage
-    for (let key in data) {
-      k.push(data[key].valid)
-    }
-    return k.includes(false)
+  const disabled = () => {
+    const { name, email, message } = state
+    return name.valid && email.valid && message.valid
   }
-  render() {
-    const form = ContactForm.map((item, index) => {
-      return (
-        <Form.Group key={index} controlId={item.controlId}>
-          <Form.Label>{ucFirst(item.name)}</Form.Label>
-          <Form.Control
-            name={item.name}
-            type={item.type}
-            placeholder={ucFirst(item.name)}
-            as={item.as}
-            onChange={this.handleValue}
-            value={this.state[item.name].value}
-          />
-          <Form.Text style={{ color: 'red' }}>
-            {this.state[item.name].error}
-          </Form.Text>
-        </Form.Group>
-      )
-    })
+
+  const form = ContactForm.map((item, index) => {
     return (
-      <Form
-        style={{
-          width: '400px',
-          color: '#ccc',
-          margin: '0 auto',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <div style={{ color: 'red', margin: '0 auto' }}>
-          {this.state.errorMessage.slice(6)}
-        </div>
-        {form}
-        <Button
-          onClick={this.SaveContactInfo}
-          style={{ margin: '10px auto', width: '100px' }}
-          variant="primary"
-          disabled={this.disabled()}
-        >
-          Submit
-        </Button>
-      </Form>
+      <Form.Group key={index} controlId={item.controlId}>
+        <Form.Label>{ucFirst(item.name)}</Form.Label>
+        <Form.Control
+          name={item.name}
+          type={item.type}
+          placeholder={ucFirst(item.name)}
+          as={item.as}
+          onChange={handleValue}
+          value={state[item.name].value}
+        />
+        <Form.Text style={{ color: 'red' }}>{state[item.name].error}</Form.Text>
+      </Form.Group>
     )
-  }
+  })
+  return (
+    <Form
+      style={{
+        width: '400px',
+        color: '#ccc',
+        margin: '0 auto',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <div style={{ color: 'red', margin: '0 auto' }}>
+        {state.errorMessage.slice(6)}
+      </div>
+      {form}
+      <Button
+        onClick={SaveContactInfo}
+        style={{ margin: '10px auto', width: '100px' }}
+        variant="primary"
+        disabled={!disabled()}
+      >
+        Submit
+      </Button>
+    </Form>
+  )
 }
 
 export default withRouter(Contact)
