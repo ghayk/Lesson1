@@ -1,31 +1,30 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import Task from '../Task'
 import id from '../../helpers/IdGenerator'
 import Loading from '../Loading'
-class ToDo extends Component {
-  state = {
-    tasks: [],
-    checked: false,
-    selectedId: [],
-    loading: false,
-  }
-  componentDidMount() {
-    this.setState({ loading: true })
+function ToDo() {
+  const [tasks, setTasks] = useState([])
+  const [checked, setChecked] = useState(false)
+  const [selectedId, setSelectedId] = useState([])
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    setLoading(true)
     fetch('http://localhost:3001/task')
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
           throw data.error
         }
-        this.setState({ tasks: data })
+        setTasks(data)
       })
       .catch((err) => console.error('ERR', err.message))
       .finally(() => {
-        this.setState({ loading: false })
+        setLoading(false)
       })
-  }
-  CloseTask = (id) => {
-    this.setState({ loading: true })
+  }, [])
+  const CloseTask = (id) => {
+    setLoading(true)
     fetch('http://localhost:3001/task/' + id, {
       method: 'DELETE',
     })
@@ -34,21 +33,21 @@ class ToDo extends Component {
         if (data.error) {
           throw data.error
         }
-        let tasks = [...this.state.tasks]
-        tasks = tasks.filter((item) => item._id !== id)
-        this.setState({ tasks })
+        let cloneTasks = [...tasks]
+        cloneTasks = cloneTasks.filter((item) => item._id !== id)
+        setTasks(cloneTasks)
       })
       .catch((error) => {
         console.error(error)
       })
       .finally(() => {
-        this.setState({ loading: false })
+        setLoading(false)
       })
   }
-  AddTask = (task) => {
-    this.setState({ loading: true })
+  const AddTask = (task) => {
+    setLoading(true)
     if (!task.title || !task.description) return
-    const tasks = [...this.state.tasks]
+    const cloneTasks = [...tasks]
     task.date = task.date.toISOString().slice(0, 10)
     fetch('http://localhost:3001/task', {
       method: 'POST',
@@ -62,28 +61,28 @@ class ToDo extends Component {
         if (data.error) {
           throw data.error
         }
-        tasks.push(data)
-        this.setState({ tasks })
+        cloneTasks.push(data)
+        setTasks(cloneTasks)
       })
       .catch((err) => console.error('ERR', err.message))
       .finally(() => {
-        this.setState({ loading: false })
+        setLoading(false)
       })
   }
-  togleId = (id) => {
-    let selectedId = [...this.state.selectedId]
-    if (selectedId.includes(id)) {
-      selectedId = selectedId.filter((i) => i !== id)
+  const togleId = (id) => {
+    let cloeSelectedId = [...selectedId]
+    if (cloeSelectedId.includes(id)) {
+      cloeSelectedId = cloeSelectedId.filter((i) => i !== id)
     } else {
-      selectedId.push(id)
+      cloeSelectedId.push(id)
     }
-    this.setState({ selectedId })
+    setSelectedId(cloeSelectedId)
   }
-  DellTasks = () => {
-    this.setState({ loading: true })
+  const DellTasks = () => {
+    setLoading(true)
     fetch('http://localhost:3001/task', {
       method: 'PATCH',
-      body: JSON.stringify({ tasks: Array.from(this.state.selectedId) }),
+      body: JSON.stringify({ tasks: Array.from(selectedId) }),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -93,36 +92,40 @@ class ToDo extends Component {
         if (data.error) {
           throw data.error
         }
-        let tasks = [...this.state.tasks]
-        let selectedId = [...this.state.selectedId]
-        tasks = tasks.filter((item) => !selectedId.includes(item._id))
-        this.setState({ tasks, selectedId: [] })
+        let cloneTasks = [...tasks]
+        let cloneSelectedId = [...selectedId]
+        cloneTasks = cloneTasks.filter(
+          (item) => !cloneSelectedId.includes(item._id)
+        )
+        setTasks(cloneTasks)
+        setSelectedId([])
       })
       .catch((e) => console.error(e))
       .finally(() => {
-        this.setState({ loading: false })
+        setLoading(false)
       })
   }
-  Disabled = () => {
-    return this.state.tasks.some((item) => item.checked === true)
+  const Disabled = () => {
+    return !!selectedId.length
   }
-  CheckedAll = () => {
-    let checked = this.state.checked
-    let tasks = this.state.tasks
-    let selectedId = [...this.state.selectedId]
-    if (!this.state.checked) {
-      tasks.forEach((item) => {
-        if (!selectedId.includes(item._id)) {
-          selectedId.push(item._id)
+  const CheckedAll = () => {
+    let cloneTasks = tasks
+    let cloneSelectedId = [...selectedId]
+    if (!checked) {
+      cloneTasks.forEach((item) => {
+        if (!cloneSelectedId.includes(item._id)) {
+          cloneSelectedId.push(item._id)
         }
       })
-      this.setState({ selectedId, checked: !checked })
+      setSelectedId(cloneSelectedId)
+      setChecked(!checked)
     } else {
-      this.setState({ selectedId: [], checked: !checked })
+      setSelectedId([])
+      setChecked(!checked)
     }
   }
-  EditTask = (task) => {
-    this.setState({ loading: true })
+  const EditTask = (task) => {
+    setLoading(true)
     task.date = task.date.toISOString().slice(0, 10)
     fetch('http://localhost:3001/task/' + task._id, {
       method: 'PUT',
@@ -136,43 +139,42 @@ class ToDo extends Component {
         if (data.error) {
           throw data.error
         }
-        let tasks = [...this.state.tasks]
-        tasks = tasks.map((item) => {
+        let cloneTasks = [...tasks]
+        cloneTasks = cloneTasks.map((item) => {
           if (item._id === task._id) {
             item = task
           }
           return item
         })
-        this.setState({ tasks })
+        setTasks(cloneTasks)
       })
       .catch((error) => {
         console.error('Edit Task Request', error)
       })
       .finally(() => {
-        this.setState({ loading: false })
+        setLoading(false)
       })
   }
-  render() {
-    if (this.state.loading) {
-      return <Loading />
-    }
-    return (
-      <>
-        <Task
-          CloseTask={this.CloseTask}
-          tasks={this.state.tasks}
-          togleId={this.togleId}
-          handleIdForDelete={this.handleIdForDelete}
-          DellTasks={this.DellTasks}
-          Disabled={this.Disabled}
-          CheckedAll={this.CheckedAll}
-          EditTask={this.EditTask}
-          AddTask={this.AddTask}
-          id={id}
-          selectedId={this.state.selectedId}
-          />          
-      </>
-    )
+
+  if (loading) {
+    return <Loading />
   }
+  return (
+    <>
+      <Task
+        CloseTask={CloseTask}
+        tasks={tasks}
+        togleId={togleId}
+        DellTasks={DellTasks}
+        Disabled={Disabled}
+        CheckedAll={CheckedAll}
+        EditTask={EditTask}
+        AddTask={AddTask}
+        id={id}
+        selectedId={selectedId}
+      />
+    </>
+  )
 }
+
 export default ToDo

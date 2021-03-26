@@ -2,40 +2,29 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
 
-class ConfirmDellModal extends React.Component {
-  state = {}
-  handleClose = () => this.props.confirmFoo()
-  DellTasks = () => {
-    this.props.DellTasks()
-    this.handleClose()
+function ConfirmDellModal(props) {
+  const handleClose = () => props.confirmFoo()
+  const DellTasks = () => {
+    props.DellTasks()
+    handleClose()
   }
-  render() {
-    return (
-      <>
-        <Modal
-          show={this.props.confirm}
-          onHide={this.handleClose}
-          animation={false}
-        >
-          <Modal.Body className="d-flex justify-content-center fa-2x">
-            Are you sure you want to delete it
-          </Modal.Body>
-          <Modal.Footer className="d-flex justify-content-center">
-            <Button
-              className="mr-2"
-              variant="secondary"
-              onClick={this.handleClose}
-            >
-              NO
-            </Button>
-            <Button variant="danger" onClick={this.DellTasks}>
-              YES
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </>
-    )
-  }
+  return (
+    <>
+      <Modal show={props.confirm} onHide={handleClose} animation={false}>
+        <Modal.Body className="d-flex justify-content-center fa-2x">
+          Are you sure you want to delete it
+        </Modal.Body>
+        <Modal.Footer className="d-flex justify-content-center">
+          <Button className="mr-2" variant="secondary" onClick={handleClose}>
+            NO
+          </Button>
+          <Button variant="danger" onClick={DellTasks}>
+            YES
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  )
 }
 
 ConfirmDellModal.propTypes = {
