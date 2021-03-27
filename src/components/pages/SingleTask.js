@@ -1,28 +1,50 @@
 import { Button } from 'react-bootstrap'
-import React from 'react'
+import React, { useEffect, useReducer } from 'react'
 import AddAndEditModal from '../AddAndEditModal'
 import Loading from '../Loading'
-
-class SingleTask extends React.Component {
-  state = {
-    task: null,
-    edit: false,
+const initialState = {
+  task: null,
+  edit: false,
+}
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'useEffect':
+      return {
+        ...state,
+        task: action.data,
+      }
+    case 'editFoo':
+      return {
+        ...state,
+        edit: !state.edit,
+      }
+    case 'EditTask':
+      return {
+        ...state,
+        task: action.data,
+      }
+    default:
+      throw new Error()
   }
-  componentDidMount() {
-    const id = this.props.match.params.id
+}
+function SingleTask(props) {
+  const [state, dispath] = useReducer(reducer, initialState)
+
+  useEffect(() => {
+    const { id } = props.match.params
     fetch(`http://localhost:3001/task/${id}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
           throw data.error
         }
-        this.setState({ task: data })
+        dispath({ type: 'useEffect', data })
       })
       .catch(() => {
-        this.props.history.push('/404')
+        props.history.push('/404')
       })
-  }
-  DelTask = (id) => {
+  }, [])
+  const DelTask = (id) => {
     fetch('http://localhost:3001/task/' + id, {
       method: 'DELETE',
     })
@@ -35,12 +57,12 @@ class SingleTask extends React.Component {
       .catch((error) => {
         console.error(error)
       })
-    this.props.history.push('/')
+    props.history.push('/')
   }
-  editFoo = () => {
-    this.setState({ edit: !this.state.edit })
+  const editFoo = () => {
+    dispath({ type: 'editFoo' })
   }
-  EditTask = (task) => {
+  const EditTask = (task) => {
     task.date = task.date.toISOString().slice(0, 10)
     fetch('http://localhost:3001/task/' + task._id, {
       method: 'PUT',
@@ -54,66 +76,67 @@ class SingleTask extends React.Component {
         if (data.error) {
           throw data.error
         }
-        this.setState({ task: data })
+        dispath({ type: 'EditTask', data })
       })
       .catch((error) => {
         console.error('Edit Task Request', error)
       })
   }
-  GoToHome = () => {
-    this.props.history.push('/')
+  if (!state.task) {
+    return <Loading />
   }
-  render() {
-    const { task } = this.state
-    if (!this.state.task) {
-      return <Loading />
-    }
-    return (
-      <>
-        <div className="SingleTask">
-          <div className="conSingleTask">
-            <div className="STtitle">{'Title - ' + task.title}</div>
-            <div className="STdescription">
-              {'Description - ' + task.description}
-            </div>
-            <div className="STdate">{'Date - ' + task.date.slice(0, 10)}</div>
-            <div
-              style={{
-                display: 'flex',
-                marginTop: '20px',
-                width: '250px',
-                justifyContent: 'space-between',
-              }}
+
+  return (
+    <>
+      <div className="SingleTask">
+        <div className="conSingleTask">
+          <div className="STtitle">{'Title - ' + state.task.title}</div>
+          <div className="STdescription">
+            {'Description - ' + state.task.description}
+          </div>
+          <div className="STdate">
+            {'Date - ' + state.task.date.slice(0, 10)}
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              marginTop: '20px',
+              width: '250px',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Button
+              variant="outline-primary"
+              onClick={() => props.history.push('/')}
             >
-              <Button variant="outline-primary" onClick={this.GoToHome}>
-                Go to Home
-              </Button>
-              <Button
-                onClick={() => this.setState({ edit: !this.state.edit })}
-                variant="outline-success"
-              >
-                Edit
-              </Button>
-              <Button
-                variant="outline-danger"
-                onClick={() => this.DelTask(task._id)}
-              >
-                Dell
-              </Button>
-            </div>
+              Go to Home
+            </Button>
+            <Button
+              onClick={() => dispath({ type: 'editFoo' })}
+              variant="outline-success"
+            >
+              Edit
+            </Button>
+            <Button
+              variant="outline-danger"
+              onClick={() => DelTask(state.task._id)}
+            >
+              Dell
+            </Button>
           </div>
         </div>
-        {this.state.edit && (
-          <AddAndEditModal
-            EditTask={this.EditTask}
-            task={this.state.task}
-            edit={this.state.edit}
-            editFoo={this.editFoo}
-            AddOrEdit={'Edit'}
-          />
-        )}
-      </>
-    )
-  }
+      </div>
+      {state.edit && (
+        <AddAndEditModal
+          EditTask={EditTask}
+          task={state.task}
+          edit={state.edit}
+          editFoo={editFoo}
+          AddOrEdit={'Edit'}
+        />
+      )}
+    </>
+  )
 }
+
 export default SingleTask
