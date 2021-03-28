@@ -8,12 +8,12 @@ const initialState = {
 }
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'useEffect':
+    case 'setData':
       return {
         ...state,
         task: action.data,
       }
-    case 'editFoo':
+    case 'toogleEdit':
       return {
         ...state,
         edit: !state.edit,
@@ -38,7 +38,7 @@ function SingleTask(props) {
         if (data.error) {
           throw data.error
         }
-        dispath({ type: 'useEffect', data })
+        dispath({ type: 'setData', data })
       })
       .catch(() => {
         props.history.push('/404')
@@ -60,7 +60,7 @@ function SingleTask(props) {
     props.history.push('/')
   }
   const editFoo = () => {
-    dispath({ type: 'editFoo' })
+    dispath({ type: 'toogleEdit' })
   }
   const EditTask = (task) => {
     task.date = task.date.toISOString().slice(0, 10)
@@ -112,7 +112,7 @@ function SingleTask(props) {
               Go to Home
             </Button>
             <Button
-              onClick={() => dispath({ type: 'editFoo' })}
+              onClick={() => dispath({ type: 'toogleEdit' })}
               variant="outline-success"
             >
               Edit
