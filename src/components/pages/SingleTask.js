@@ -43,7 +43,7 @@ function SingleTask(props) {
       .catch(() => {
         props.history.push('/404')
       })
-  }, [])
+  }, [props.match.params, props.history])
   const DelTask = (id) => {
     fetch('http://localhost:3001/task/' + id, {
       method: 'DELETE',

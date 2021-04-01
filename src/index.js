@@ -4,13 +4,17 @@ import './Reset.css'
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'react-datepicker/dist/react-datepicker.css'
+import store from './Redux/store'
 import { BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
 import App from './App'
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

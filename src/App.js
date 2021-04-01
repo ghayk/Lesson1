@@ -18,7 +18,14 @@ const pages = [
 
 function App() {
   const route = pages.map((item, index) => {
-    return <Route key={index} path={item.path} component={item.comp} exact />
+    return (
+      <Route
+        key={index}
+        path={item.path}
+        render={(props) => <item.comp {...props} />}
+        exact
+      />
+    )
   })
   return (
     <>
