@@ -1,10 +1,10 @@
 import ContactForm from '../ContactForm'
 import ContextContactProvider from '../../context/ContextContactForm'
 
-export default function Contact() {
+export default function Contact(props) {
   return (
     <ContextContactProvider>
-      <ContactForm />
+      <ContactForm {...props} />
     </ContextContactProvider>
   )
 }

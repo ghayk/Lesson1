@@ -1,12 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Task from '../Task'
 import id from '../../helpers/IdGenerator'
 import Loading from '../Loading'
-function ToDo() {
-  const [tasks, setTasks] = useState([])
-  const [checked, setChecked] = useState(false)
-  const [selectedId, setSelectedId] = useState([])
-  const [loading, setLoading] = useState(false)
+import { connect } from 'react-redux'
+import {
+  getTasks,
+  checkedAllTasks,
+  handleSelectedId,
+  isLoading,
+} from '../../Redux/actionTypes'
+
+function ToDo(props) {
+  const {
+    tasks,
+    setTasks,
+    checked,
+    setChecked,
+    selectedId,
+    setSelectedId,
+    loading,
+    setLoading,
+  } = props
 
   useEffect(() => {
     setLoading(true)
@@ -22,7 +36,7 @@ function ToDo() {
       .finally(() => {
         setLoading(false)
       })
-  }, [])
+  }, [setTasks, setLoading])
   const CloseTask = (id) => {
     setLoading(true)
     fetch('http://localhost:3001/task/' + id, {
@@ -176,5 +190,23 @@ function ToDo() {
     </>
   )
 }
-
-export default ToDo
+const TodoProvider = connect(
+  (state) => {
+    return {
+      tasks: state.todoState.tasks,
+      checked: state.todoState.checked,
+      selectedId: state.todoState.selectedId,
+      loading: state.todoState.loading,
+    }
+  },
+  (dispatch) => {
+    return {
+      setTasks: (tasks) => dispatch({ type: getTasks, tasks }),
+      setChecked: (checked) => dispatch({ type: checkedAllTasks, checked }),
+      setSelectedId: (selectedId) =>
+        dispatch({ type: handleSelectedId, selectedId }),
+      setLoading: (loading) => dispatch({ type: isLoading, loading }),
+    }
+  }
+)(ToDo)
+export default TodoProvider
