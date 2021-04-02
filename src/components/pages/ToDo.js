@@ -191,12 +191,12 @@ function ToDo(props) {
   )
 }
 const TodoProvider = connect(
-  (state) => {
+  (todoState) => {
     return {
-      tasks: state.todoState.tasks,
-      checked: state.todoState.checked,
-      selectedId: state.todoState.selectedId,
-      loading: state.todoState.loading,
+      tasks: todoState.tasks,
+      checked: todoState.checked,
+      selectedId: todoState.selectedId,
+      loading: todoState.loading,
     }
   },
   (dispatch) => {
