@@ -4,172 +4,34 @@ import id from '../../helpers/IdGenerator'
 import Loading from '../Loading'
 import { connect } from 'react-redux'
 import {
-  getTasks,
-  checkedAllTasks,
-  handleSelectedId,
-  isLoading,
-} from '../../Redux/actionTypes'
-
+  setTasksThunk,
+  CloseTaskThunk,
+  AddTaskThunk,
+  toggleIdThunk,
+  DellTasksThunk,
+  EditTaskThunk,
+  CheckedAllThunk,
+} from '../../Redux/actions'
 function ToDo(props) {
   const {
     tasks,
     setTasks,
-    checked,
-    setChecked,
     selectedId,
-    setSelectedId,
     loading,
-    setLoading,
+    CheckedAll,
+    CloseTask,
+    AddTask,
+    toggleId,
+    DellTasks,
+    EditTask,
   } = props
-
   useEffect(() => {
-    setLoading(true)
-    fetch('http://localhost:3001/task')
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          throw data.error
-        }
-        setTasks(data)
-      })
-      .catch((err) => console.error('ERR', err.message))
-      .finally(() => {
-        setLoading(false)
-      })
-  }, [setTasks, setLoading])
-  const CloseTask = (id) => {
-    setLoading(true)
-    fetch('http://localhost:3001/task/' + id, {
-      method: 'DELETE',
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          throw data.error
-        }
-        let cloneTasks = [...tasks]
-        cloneTasks = cloneTasks.filter((item) => item._id !== id)
-        setTasks(cloneTasks)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
-  }
-  const AddTask = (task) => {
-    setLoading(true)
-    if (!task.title || !task.description) return
-    const cloneTasks = [...tasks]
-    task.date = task.date.toISOString().slice(0, 10)
-    fetch('http://localhost:3001/task', {
-      method: 'POST',
-      body: JSON.stringify(task),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          throw data.error
-        }
-        cloneTasks.push(data)
-        setTasks(cloneTasks)
-      })
-      .catch((err) => console.error('ERR', err.message))
-      .finally(() => {
-        setLoading(false)
-      })
-  }
-  const togleId = (id) => {
-    let cloeSelectedId = [...selectedId]
-    if (cloeSelectedId.includes(id)) {
-      cloeSelectedId = cloeSelectedId.filter((i) => i !== id)
-    } else {
-      cloeSelectedId.push(id)
-    }
-    setSelectedId(cloeSelectedId)
-  }
-  const DellTasks = () => {
-    setLoading(true)
-    fetch('http://localhost:3001/task', {
-      method: 'PATCH',
-      body: JSON.stringify({ tasks: Array.from(selectedId) }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          throw data.error
-        }
-        let cloneTasks = [...tasks]
-        let cloneSelectedId = [...selectedId]
-        cloneTasks = cloneTasks.filter(
-          (item) => !cloneSelectedId.includes(item._id)
-        )
-        setTasks(cloneTasks)
-        setSelectedId([])
-      })
-      .catch((e) => console.error(e))
-      .finally(() => {
-        setLoading(false)
-      })
-  }
+    setTasks()
+  }, [setTasks])
+
   const Disabled = () => {
     return !!selectedId.length
   }
-  const CheckedAll = () => {
-    let cloneTasks = tasks
-    let cloneSelectedId = [...selectedId]
-    if (!checked) {
-      cloneTasks.forEach((item) => {
-        if (!cloneSelectedId.includes(item._id)) {
-          cloneSelectedId.push(item._id)
-        }
-      })
-      setSelectedId(cloneSelectedId)
-      setChecked(!checked)
-    } else {
-      setSelectedId([])
-      setChecked(!checked)
-    }
-  }
-  const EditTask = (task) => {
-    setLoading(true)
-    task.date = task.date.toISOString().slice(0, 10)
-    fetch('http://localhost:3001/task/' + task._id, {
-      method: 'PUT',
-      body: JSON.stringify(task),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          throw data.error
-        }
-        let cloneTasks = [...tasks]
-        cloneTasks = cloneTasks.map((item) => {
-          if (item._id === task._id) {
-            item = task
-          }
-          return item
-        })
-        setTasks(cloneTasks)
-      })
-      .catch((error) => {
-        console.error('Edit Task Request', error)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
-  }
-
   if (loading) {
     return <Loading />
   }
@@ -178,7 +40,7 @@ function ToDo(props) {
       <Task
         CloseTask={CloseTask}
         tasks={tasks}
-        togleId={togleId}
+        toggleId={toggleId}
         DellTasks={DellTasks}
         Disabled={Disabled}
         CheckedAll={CheckedAll}
@@ -191,21 +53,24 @@ function ToDo(props) {
   )
 }
 const TodoProvider = connect(
-  (todoState) => {
+  (state) => {
+    const { tasks, checked, selectedId, loading } = state.todoState
     return {
-      tasks: todoState.tasks,
-      checked: todoState.checked,
-      selectedId: todoState.selectedId,
-      loading: todoState.loading,
+      tasks,
+      checked,
+      selectedId,
+      loading,
     }
   },
   (dispatch) => {
     return {
-      setTasks: (tasks) => dispatch({ type: getTasks, tasks }),
-      setChecked: (checked) => dispatch({ type: checkedAllTasks, checked }),
-      setSelectedId: (selectedId) =>
-        dispatch({ type: handleSelectedId, selectedId }),
-      setLoading: (loading) => dispatch({ type: isLoading, loading }),
+      setTasks: () => dispatch(setTasksThunk()),
+      CloseTask: (id) => dispatch(CloseTaskThunk(id)),
+      AddTask: (task) => dispatch(AddTaskThunk(task)),
+      toggleId: (id) => dispatch(toggleIdThunk(id)),
+      EditTask: (task) => dispatch(EditTaskThunk(task)),
+      DellTasks: (selectedId) => dispatch(DellTasksThunk(selectedId)),
+      CheckedAll: () => dispatch(CheckedAllThunk()),
     }
   }
 )(ToDo)

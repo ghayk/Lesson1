@@ -36,7 +36,7 @@ function Task(props) {
 
   const {
     CloseTask,
-    togleId,
+    toggleId,
     DellTasks,
     Disabled,
     CheckedAll,
@@ -76,7 +76,7 @@ function Task(props) {
             checked={selectedId.includes(item._id)}
             className="checkbox"
             type="checkbox"
-            onChange={() => togleId(item._id)}
+            onChange={() => toggleId(item._id)}
           />
         </div>
       </Col>
@@ -120,6 +120,7 @@ function Task(props) {
         DellTasks={DellTasks}
         confirmFoo={confirmFoo}
         confirm={confirm}
+        selectedId={selectedId}
       />
       {edit && (
         <AddAndEditModal
@@ -144,6 +145,6 @@ Task.propTypes = {
   checked: PropTypes.func,
   id: PropTypes.func,
   tasks: PropTypes.arrayOf(PropTypes.object),
-  togleId: PropTypes.func.isRequired,
+  togleId: PropTypes.func,
 }
 export default Task

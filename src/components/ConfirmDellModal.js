@@ -5,7 +5,7 @@ import { Modal, Button } from 'react-bootstrap'
 function ConfirmDellModal(props) {
   const handleClose = () => props.confirmFoo()
   const DellTasks = () => {
-    props.DellTasks()
+    props.DellTasks(props.selectedId)
     handleClose()
   }
   return (
