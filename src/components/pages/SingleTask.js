@@ -1,88 +1,26 @@
 import { Button } from 'react-bootstrap'
-import React, { useEffect, useReducer } from 'react'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
 import AddAndEditModal from '../AddAndEditModal'
 import Loading from '../Loading'
-const initialState = {
-  task: null,
-  edit: false,
-}
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'setData':
-      return {
-        ...state,
-        task: action.data,
-      }
-    case 'toogleEdit':
-      return {
-        ...state,
-        edit: !state.edit,
-      }
-    case 'EditTask':
-      return {
-        ...state,
-        task: action.data,
-      }
-    default:
-      throw new Error()
-  }
-}
+import {
+  setTaskThunk,
+  dellTaskThunk,
+  EditTaskThunk,
+  toogleEditThunk,
+} from '../../Redux/actions'
+
 function SingleTask(props) {
-  const [state, dispath] = useReducer(reducer, initialState)
+  const { task, edit, setTask, delTask, EditTask, toogleEdit } = props
 
   useEffect(() => {
-    const { id } = props.match.params
-    fetch(`http://localhost:3001/task/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          throw data.error
-        }
-        dispath({ type: 'setData', data })
-      })
-      .catch(() => {
-        props.history.push('/404')
-      })
-  }, [props.match.params, props.history])
-  const DelTask = (id) => {
-    fetch('http://localhost:3001/task/' + id, {
-      method: 'DELETE',
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          throw data.error
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-    props.history.push('/')
-  }
+    setTask(props.match, props.history)
+  }, [setTask, props.match, props.history])
   const editFoo = () => {
-    dispath({ type: 'toogleEdit' })
+    toogleEdit()
   }
-  const EditTask = (task) => {
-    task.date = task.date.toISOString().slice(0, 10)
-    fetch('http://localhost:3001/task/' + task._id, {
-      method: 'PUT',
-      body: JSON.stringify(task),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          throw data.error
-        }
-        dispath({ type: 'EditTask', data })
-      })
-      .catch((error) => {
-        console.error('Edit Task Request', error)
-      })
-  }
-  if (!state.task) {
+
+  if (!task) {
     return <Loading />
   }
 
@@ -90,13 +28,11 @@ function SingleTask(props) {
     <>
       <div className="SingleTask">
         <div className="conSingleTask">
-          <div className="STtitle">{'Title - ' + state.task.title}</div>
+          <div className="STtitle">{'Title - ' + task.title}</div>
           <div className="STdescription">
-            {'Description - ' + state.task.description}
+            {'Description - ' + task.description}
           </div>
-          <div className="STdate">
-            {'Date - ' + state.task.date.slice(0, 10)}
-          </div>
+          <div className="STdate">{'Date - ' + task.date.slice(0, 10)}</div>
           <div
             style={{
               display: 'flex',
@@ -111,26 +47,26 @@ function SingleTask(props) {
             >
               Go to Home
             </Button>
-            <Button
-              onClick={() => dispath({ type: 'toogleEdit' })}
-              variant="outline-success"
-            >
+            <Button onClick={() => toogleEdit()} variant="outline-success">
               Edit
             </Button>
             <Button
               variant="outline-danger"
-              onClick={() => DelTask(state.task._id)}
+              onClick={() => {
+                delTask(task._id)
+                props.history.push('/')
+              }}
             >
               Dell
             </Button>
           </div>
         </div>
       </div>
-      {state.edit && (
+      {edit && (
         <AddAndEditModal
           EditTask={EditTask}
-          task={state.task}
-          edit={state.edit}
+          task={task}
+          edit={edit}
           editFoo={editFoo}
           AddOrEdit={'Edit'}
         />
@@ -139,4 +75,21 @@ function SingleTask(props) {
   )
 }
 
-export default SingleTask
+const SingleTaskProvider = connect(
+  (state) => {
+    const { task, edit } = state.singleTaskState
+    return {
+      task,
+      edit,
+    }
+  },
+  (dispatch) => {
+    return {
+      toogleEdit: () => dispatch(toogleEditThunk()),
+      setTask: (props) => dispatch(setTaskThunk(props)),
+      delTask: (id) => dispatch(dellTaskThunk(id)),
+      EditTask: (task) => dispatch(EditTaskThunk(task)),
+    }
+  }
+)(SingleTask)
+export default SingleTaskProvider

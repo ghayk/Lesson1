@@ -8,8 +8,10 @@ import {
   dellCheckedTasks,
   editTask,
   CheckedAll,
+  SingleTaskEditTask,
+  SingleTaskSetData,
+  SingleTaskToogleEdit,
 } from '../Redux/actionTypes'
-
 export const setTasksThunk = () => (dispatch) => {
   dispatch({ type: isLoading, loading: true })
   fetch('http://localhost:3001/task')
@@ -60,7 +62,7 @@ export const AddTaskThunk = (task) => (dispatch) => {
       if (data.error) {
         throw data.error
       }
-      dispatch({ type: addTask, task })
+      dispatch({ type: addTask, task: data })
     })
     .catch((err) => console.error('ERR', err.message))
     .finally(() => {
@@ -107,7 +109,8 @@ export const EditTaskThunk = (task) => (dispatch) => {
       if (data.error) {
         throw data.error
       }
-      dispatch({ type: editTask, task })
+      dispatch({ type: editTask, task: data })
+      dispatch({ type: SingleTaskEditTask, data })
     })
     .catch((error) => {
       console.error('Edit Task Request', error)
@@ -118,4 +121,44 @@ export const EditTaskThunk = (task) => (dispatch) => {
 }
 export const CheckedAllThunk = () => (dispatch) => {
   dispatch({ type: CheckedAll })
+}
+
+export const setTaskThunk = (match, history) => (dispatch) => {
+  dispatch({ type: isLoading, loading: true })
+  const { id } = match.params
+  fetch(`http://localhost:3001/task/${id}`)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error) {
+        throw data.error
+      }
+      dispatch({ type: SingleTaskSetData, data })
+    })
+    .catch(() => {
+      history.push('/404')
+    })
+    .finally(() => {
+      dispatch({ type: isLoading, loading: false })
+    })
+}
+export const dellTaskThunk = (id) => (dispatch) => {
+  dispatch({ type: isLoading, loading: true })
+  fetch('http://localhost:3001/task/' + id, {
+    method: 'DELETE',
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error) {
+        throw data.error
+      }
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+    .finally(() => {
+      dispatch({ type: isLoading, loading: false })
+    })
+}
+export const toogleEditThunk = () => (dispatch) => {
+  dispatch({ type: SingleTaskToogleEdit })
 }
