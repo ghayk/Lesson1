@@ -6,6 +6,7 @@
 body {
   background: url(https://png.pngtree.com/thumb_back/fw800/back_our/20190628/ourmid/pngtree-simple-atmospheric-black-striped-background-image_277567.jpg)
     0 0 /100%;
+  color: white;
 }
 .col {
   min-width: 300px;
@@ -106,7 +107,7 @@ body {
 }
 .ConBtn {
   position: absolute;
-  top: 90px;
+  top: 100px;
   left: 10px;
   display: flex;
   flex-direction: column;

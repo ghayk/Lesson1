@@ -5,7 +5,12 @@ import AddAndEditModal from './AddAndEditModal'
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
+import {
+  faTrash,
+  faEdit,
+  faHourglassHalf,
+  faCheck,
+} from '@fortawesome/free-solid-svg-icons'
 
 function Task(props) {
   const [confirm, setonfirm] = useState(false)
@@ -55,7 +60,6 @@ function Task(props) {
           <div className="conDate">{item.date.slice(0, 10)}</div>
           <div className="conTrashEdit">
             <Button
-              className="mr-2"
               size="sm"
               variant="outline-danger"
               disabled={Disabled()}
@@ -64,12 +68,23 @@ function Task(props) {
               <FontAwesomeIcon icon={faTrash} />
             </Button>
             <Button
+              className="m-2"
               onClick={() => editFoo(item._id)}
               disabled={Disabled()}
               variant="outline-warning"
               size="sm"
             >
               <FontAwesomeIcon icon={faEdit} />
+            </Button>
+            <Button
+              onClick={() => props.toggleStatus(item)}
+              disabled={Disabled()}
+              variant="outline-success"
+              size="sm"
+            >
+              <FontAwesomeIcon
+                icon={item.status === 'active' ? faCheck : faHourglassHalf}
+              />
             </Button>
           </div>
           <input

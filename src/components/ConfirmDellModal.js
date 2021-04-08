@@ -11,7 +11,10 @@ function ConfirmDellModal(props) {
   return (
     <>
       <Modal show={props.confirm} onHide={handleClose} animation={false}>
-        <Modal.Body className="d-flex justify-content-center fa-2x">
+        <Modal.Body
+          style={{ color: '#333' }}
+          className="d-flex justify-content-center fa-2x"
+        >
           Are you sure you want to delete it
         </Modal.Body>
         <Modal.Footer className="d-flex justify-content-center">

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Task from '../Task'
 import id from '../../helpers/IdGenerator'
 import Loading from '../Loading'
+import Search from '../Search'
 import { connect } from 'react-redux'
 import {
   setTasksThunk,
@@ -11,6 +12,7 @@ import {
   DellTasksThunk,
   EditTaskThunk,
   CheckedAllThunk,
+  toggleStatusThunk,
 } from '../../Redux/actions'
 function ToDo(props) {
   const {
@@ -24,6 +26,7 @@ function ToDo(props) {
     toggleId,
     DellTasks,
     EditTask,
+    toggleStatus,
   } = props
   useEffect(() => {
     setTasks()
@@ -37,6 +40,7 @@ function ToDo(props) {
   }
   return (
     <>
+      <Search />
       <Task
         CloseTask={CloseTask}
         tasks={tasks}
@@ -48,6 +52,7 @@ function ToDo(props) {
         AddTask={AddTask}
         id={id}
         selectedId={selectedId}
+        toggleStatus={toggleStatus}
       />
     </>
   )
@@ -71,6 +76,7 @@ const TodoProvider = connect(
       EditTask: (task) => dispatch(EditTaskThunk(task)),
       DellTasks: (selectedId) => dispatch(DellTasksThunk(selectedId)),
       CheckedAll: () => dispatch(CheckedAllThunk()),
+      toggleStatus: (task) => dispatch(toggleStatusThunk(task)),
     }
   }
 )(ToDo)

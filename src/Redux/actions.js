@@ -162,3 +162,46 @@ export const dellTaskThunk = (id) => (dispatch) => {
 export const toogleEditThunk = () => (dispatch) => {
   dispatch({ type: SingleTaskToogleEdit })
 }
+export const toggleStatusThunk = (task) => (dispatch) => {
+  dispatch({ type: isLoading, loading: true })
+  const status = task.status === 'active' ? 'done' : 'active'
+  fetch('http://localhost:3001/task/' + task._id, {
+    method: 'PUT',
+    body: JSON.stringify({ status }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error) {
+        throw data.error
+      }
+      dispatch({ type: editTask, task: data })
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+    .finally(() => {
+      dispatch({ type: isLoading, loading: false })
+    })
+}
+export const searchTasksThunk = (queryData) => (dispatch) => {
+  let query = '?'
+  for (let key in queryData) {
+    query += key + '=' + queryData[key] + '&'
+  }
+  dispatch({ type: isLoading, loading: true })
+  fetch('http://localhost:3001/task/' + query.slice(0, query.length - 1))
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.error) throw data.error
+      dispatch({ type: getTasks, tasks: data })
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+    .finally(() => {
+      dispatch({ type: isLoading, loading: false })
+    })
+}

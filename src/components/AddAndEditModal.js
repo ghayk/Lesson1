@@ -33,7 +33,7 @@ function AddAndEditModal(props) {
     <>
       <Modal show={props.edit} onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
-          <Modal.Title>{props.AddOrEdit}</Modal.Title>
+          <Modal.Title style={{ color: '#333' }}>{props.AddOrEdit}</Modal.Title>
         </Modal.Header>
         <Modal.Body className="d-flex flex-column align-items-center fa-2x">
           <input
