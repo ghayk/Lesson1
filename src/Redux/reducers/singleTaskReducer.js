@@ -1,7 +1,7 @@
 import {
-  SingleTaskEditTask,
-  SingleTaskSetData,
-  SingleTaskToogleEdit,
+  SINGLE_TASK_EDIT_TASK,
+  SINGLE_TASK_SET_DATA,
+  SINGLE_TASK_TOOGLE_EDIT,
 } from '../actionTypes'
 const initialState = {
   task: null,
@@ -9,17 +9,17 @@ const initialState = {
 }
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case SingleTaskSetData:
+    case SINGLE_TASK_SET_DATA:
       return {
         ...state,
         task: action.data,
       }
-    case SingleTaskToogleEdit:
+    case SINGLE_TASK_TOOGLE_EDIT:
       return {
         ...state,
         edit: !state.edit,
       }
-    case SingleTaskEditTask:
+    case SINGLE_TASK_EDIT_TASK:
       return {
         ...state,
         task: action.data,

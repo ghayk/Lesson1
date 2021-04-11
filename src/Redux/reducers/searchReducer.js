@@ -1,8 +1,8 @@
 import {
-  setInputValue,
-  setDropDownValue,
-  setDate,
-  resetAll,
+  SET_INPUT_VALUE,
+  SET_DROP_DOWN_VALUE,
+  SET_DATE,
+  RESET_ALL,
 } from '../actionTypes'
 
 const initialState = {
@@ -16,24 +16,24 @@ const initialState = {
 }
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case setInputValue:
+    case SET_INPUT_VALUE:
       return {
         ...state,
         search: action.value,
       }
-    case setDropDownValue:
+    case SET_DROP_DOWN_VALUE:
       const { value, dropDownType } = action
       return {
         ...state,
         [dropDownType]: value,
       }
-    case setDate:
+    case SET_DATE:
       const { date, dateType } = action
       return {
         ...state,
         [dateType]: date,
       }
-    case resetAll:
+    case RESET_ALL:
       return {
         ...initialState,
       }
