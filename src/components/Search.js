@@ -44,17 +44,7 @@ function Search(props) {
     searchTasks(queryData)
   }
   return (
-    <div
-      style={{
-        maxWidth: '400px',
-        padding: '10px',
-        margin: '10px auto',
-        border: '1px solid #ccc',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-      }}
-    >
+    <div className="conSearch" style={{}}>
       <div>
         <span>Search</span>
         <Form.Control

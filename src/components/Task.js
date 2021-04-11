@@ -100,7 +100,7 @@ function Task(props) {
 
   return (
     <Container>
-      <Row className="justify-content-center ">
+      <Row className="justify-content-center">
         {props.tasks.length === 0 ? (
           <p style={{ color: 'white' }}>list is empty</p>
         ) : (

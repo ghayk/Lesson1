@@ -187,7 +187,6 @@ export const toggleStatusThunk = (task) => (dispatch) => {
     })
 }
 export const searchTasksThunk = (queryData) => (dispatch) => {
-  git
   let query = '?'
   for (let key in queryData) {
     query += key + '=' + queryData[key] + '&'
