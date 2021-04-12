@@ -5,7 +5,7 @@ import AddAndEditModal from '../AddAndEditModal'
 import Loading from '../Loading'
 import {
   setTaskThunk,
-  dellTaskThunk,
+  CloseTaskThunk,
   EditTaskThunk,
   toogleEditThunk,
 } from '../../Redux/actions'
@@ -87,7 +87,7 @@ const SingleTaskProvider = connect(
     return {
       toogleEdit: () => dispatch(toogleEditThunk()),
       setTask: (props) => dispatch(setTaskThunk(props)),
-      delTask: (id) => dispatch(dellTaskThunk(id)),
+      delTask: (id) => dispatch(CloseTaskThunk(id)),
       EditTask: (task) => dispatch(EditTaskThunk(task)),
     }
   }

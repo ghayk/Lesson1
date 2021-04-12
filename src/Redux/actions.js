@@ -141,24 +141,6 @@ export const setTaskThunk = (match, history) => (dispatch) => {
       dispatch({ type: IS_LOADING, loading: false })
     })
 }
-export const dellTaskThunk = (id) => (dispatch) => {
-  dispatch({ type: IS_LOADING, loading: true })
-  fetch('http://localhost:3001/task/' + id, {
-    method: 'DELETE',
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.error) {
-        throw data.error
-      }
-    })
-    .catch((error) => {
-      console.error(error)
-    })
-    .finally(() => {
-      dispatch({ type: IS_LOADING, loading: false })
-    })
-}
 export const toogleEditThunk = () => (dispatch) => {
   dispatch({ type: SINGLE_TASK_TOOGLE_EDIT })
 }
