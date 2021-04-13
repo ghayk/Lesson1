@@ -59,7 +59,8 @@ function ToDo(props) {
 }
 const TodoProvider = connect(
   (state) => {
-    const { tasks, checked, selectedId, loading } = state.todoState
+    const { tasks, checked, selectedId } = state.todoState
+    const { loading } = state.globalState
     return {
       tasks,
       checked,
@@ -73,7 +74,7 @@ const TodoProvider = connect(
       CloseTask: (id) => dispatch(CloseTaskThunk(id)),
       AddTask: (task) => dispatch(AddTaskThunk(task)),
       toggleId: (id) => dispatch(toggleIdThunk(id)),
-      EditTask: (task) => dispatch(EditTaskThunk(task)),
+      EditTask: (task, page) => dispatch(EditTaskThunk(task, page)),
       DellTasks: (selectedId) => dispatch(DellTasksThunk(selectedId)),
       CheckedAll: () => dispatch(CheckedAllThunk()),
       toggleStatus: (task) => dispatch(toggleStatusThunk(task)),

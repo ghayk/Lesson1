@@ -2,7 +2,6 @@ import {
   GET_TASKS,
   CHECKED_ALL_TASKS,
   HANDLE_SELECTED_ID,
-  IS_LOADING,
   DELL_ONE_TASK,
   ADD_TASK,
   TOGGLE_CHECK_TASK,
@@ -16,7 +15,6 @@ const initialState = {
   tasks: [],
   checked: false,
   selectedId: [],
-  loading: false,
 }
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -36,12 +34,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         selectedId: action.selectedId,
-      }
-    }
-    case IS_LOADING: {
-      return {
-        ...state,
-        loading: action.loading,
       }
     }
     case DELL_ONE_TASK: {

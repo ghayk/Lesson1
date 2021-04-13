@@ -1,77 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Form, Button } from 'react-bootstrap'
 import ucFirst from '../helpers/ucFirst'
-import { isRequired, minLength, maxLength, email } from '../helpers/validate'
-
-const ConForm = [
-  { name: 'name', type: 'text', controlId: 'formBasicName' },
-  { name: 'email', type: 'email', controlId: 'formBasicEmail' },
-  { name: 'message', as: 'textarea', controlId: 'formBasicEmail' },
-]
+import { connect } from 'react-redux'
+import { handleValueThunk, SaveContactInfoThunk } from '../Redux/actions'
+import { ConForm } from '../Redux/reducers/contactReducer'
 function ContactForm(props) {
-  const [state, setState] = useState({
-    name: {
-      value: '',
-      valid: false,
-      error: null,
-    },
-    email: {
-      value: '',
-      valid: false,
-      error: null,
-    },
-    message: {
-      value: '',
-      valid: false,
-      error: null,
-    },
-    errorMessage: '',
-  })
-  const handleValue = (e) => {
-    const { name, value } = e.target
-    let error = null
-    switch (name) {
-      case 'name':
-      case 'email':
-      case 'message':
-        error =
-          isRequired(value) ||
-          minLength(value) ||
-          maxLength(value) ||
-          email(value, name)
-        break
-      default:
-    }
-    setState({
-      ...state,
-      [name]: { value: value, valid: !!!error, error: error },
-    })
-  }
-  const SaveContactInfo = () => {
-    const formData = { ...state }
-    delete formData.errorMessage
-    for (let key in formData) {
-      formData[key] = formData[key].value
-    }
-    if (!state.name || !state.email || !state.message) return
-    fetch('http://localhost:3001/form', {
-      method: 'POST',
-      body: JSON.stringify(formData),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          throw data.error
-        }
-        props.history.push('/')
-      })
-      .catch((err) => {
-        setState({ ...state, errorMessage: err.message })
-      })
-  }
+  const { state, handleValue, SaveContactInfo, history } = props
+
   const disabled = () => {
     const { name, email, message } = state
     return name.valid && email.valid && message.valid
@@ -108,7 +43,7 @@ function ContactForm(props) {
       </div>
       {form}
       <Button
-        onClick={SaveContactInfo}
+        onClick={() => SaveContactInfo(state, history)}
         style={{ margin: '10px auto', width: '100px' }}
         variant="primary"
         disabled={!disabled()}
@@ -119,4 +54,18 @@ function ContactForm(props) {
   )
 }
 
-export default ContactForm
+const ContactProvider = connect(
+  (state) => {
+    return {
+      state: state.contactState,
+    }
+  },
+  (dispatch) => {
+    return {
+      handleValue: (e) => dispatch(handleValueThunk(e)),
+      SaveContactInfo: (state, history) =>
+        dispatch(SaveContactInfoThunk(state, history)),
+    }
+  }
+)(ContactForm)
+export default ContactProvider

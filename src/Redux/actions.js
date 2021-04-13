@@ -11,7 +11,11 @@ import {
   SINGLE_TASK_EDIT_TASK,
   SINGLE_TASK_SET_DATA,
   SINGLE_TASK_TOOGLE_EDIT,
+  HANDLE_CONTACT_VALUE,
+  SET_ERROR_MESSAGE,
+  SET_SUCCESS_MESSAGE,
 } from '../Redux/actionTypes'
+import { isRequired, minLength, maxLength, email } from '../helpers/validate'
 export const setTasksThunk = () => (dispatch) => {
   dispatch({ type: IS_LOADING, loading: true })
   fetch('http://localhost:3001/task')
@@ -21,13 +25,19 @@ export const setTasksThunk = () => (dispatch) => {
         throw data.error
       }
       dispatch({ type: GET_TASKS, tasks: data })
+      dispatch({
+        type: SET_SUCCESS_MESSAGE,
+        successMessage: 'You set tasks Successfully !',
+      })
     })
-    .catch((err) => console.error('ERR', err.message))
+    .catch((error) => {
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage: error.message })
+    })
     .finally(() => {
       dispatch({ type: IS_LOADING, loading: false })
     })
 }
-export const CloseTaskThunk = (id) => (dispatch) => {
+export const CloseTaskThunk = (id, history = null) => (dispatch) => {
   dispatch({ type: IS_LOADING, loading: true })
   fetch('http://localhost:3001/task/' + id, {
     method: 'DELETE',
@@ -37,10 +47,14 @@ export const CloseTaskThunk = (id) => (dispatch) => {
       if (data.error) {
         throw data.error
       }
-      dispatch({ type: DELL_ONE_TASK, id })
+      history ? history.push('/') : dispatch({ type: DELL_ONE_TASK, id })
+      dispatch({
+        type: SET_SUCCESS_MESSAGE,
+        successMessage: 'The Task Was Deleted !',
+      })
     })
     .catch((error) => {
-      console.error(error)
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage: error.message })
     })
     .finally(() => {
       dispatch({ type: IS_LOADING, loading: false })
@@ -63,8 +77,14 @@ export const AddTaskThunk = (task) => (dispatch) => {
         throw data.error
       }
       dispatch({ type: ADD_TASK, task: data })
+      dispatch({
+        type: SET_SUCCESS_MESSAGE,
+        successMessage: 'You added Task Successfully !',
+      })
     })
-    .catch((err) => console.error('ERR', err.message))
+    .catch((error) => {
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage: error.message })
+    })
     .finally(() => {
       dispatch({ type: IS_LOADING, loading: false })
     })
@@ -88,8 +108,14 @@ export const DellTasksThunk = (selectedId) => (dispatch) => {
       }
       dispatch({ type: DELL_CHECKED_TASKS })
       dispatch({ type: TOGGLE_CHECK_TASK_NUL })
+      dispatch({
+        type: SET_SUCCESS_MESSAGE,
+        successMessage: 'You  delete checked tasks Successfully !',
+      })
     })
-    .catch((e) => console.error(e))
+    .catch((error) => {
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage: error.message })
+    })
     .finally(() => {
       dispatch({ type: IS_LOADING, loading: false })
     })
@@ -111,9 +137,13 @@ export const EditTaskThunk = (task) => (dispatch) => {
       }
       dispatch({ type: EDIT_TASK, task: data })
       dispatch({ type: SINGLE_TASK_EDIT_TASK, data })
+      dispatch({
+        type: SET_SUCCESS_MESSAGE,
+        successMessage: 'You  Edit  Task Successfully !',
+      })
     })
     .catch((error) => {
-      console.error('Edit Task Request', error)
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage: error.message })
     })
     .finally(() => {
       dispatch({ type: IS_LOADING, loading: false })
@@ -162,7 +192,7 @@ export const toggleStatusThunk = (task) => (dispatch) => {
       dispatch({ type: EDIT_TASK, task: data })
     })
     .catch((error) => {
-      console.error(error)
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage: error.message })
     })
     .finally(() => {
       dispatch({ type: IS_LOADING, loading: false })
@@ -181,9 +211,57 @@ export const searchTasksThunk = (queryData) => (dispatch) => {
       dispatch({ type: GET_TASKS, tasks: data })
     })
     .catch((error) => {
-      console.error(error)
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage: error.message })
     })
     .finally(() => {
       dispatch({ type: IS_LOADING, loading: false })
+    })
+}
+export const handleValueThunk = (e) => (dispatch) => {
+  const { name, value } = e.target
+  let error = null
+  switch (name) {
+    case 'name':
+    case 'email':
+    case 'message':
+      error =
+        isRequired(value) ||
+        minLength(value) ||
+        maxLength(value) ||
+        email(value, name)
+      break
+    default:
+  }
+  dispatch({ type: HANDLE_CONTACT_VALUE, name, value, error })
+}
+export const SaveContactInfoThunk = (state, history) => (dispatch) => {
+  console.log('state', state)
+  const formData = { ...state }
+  delete formData.errorMessage
+  console.log('formData', formData)
+  for (let key in formData) {
+    formData[key] = formData[key].value
+  }
+  if (!state.name || !state.email || !state.message) return
+  fetch('http://localhost:3001/form', {
+    method: 'POST',
+    body: JSON.stringify(formData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error) {
+        throw data.error
+      }
+      dispatch({
+        type: SET_SUCCESS_MESSAGE,
+        successMessage: 'Save contact info Successfully !',
+      })
+      history.push('/')
+    })
+    .catch((error) => {
+      dispatch({ type: SET_ERROR_MESSAGE, errorMessage: error.message })
     })
 }

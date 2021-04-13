@@ -53,8 +53,8 @@ function SingleTask(props) {
             <Button
               variant="outline-danger"
               onClick={() => {
-                delTask(task._id)
-                props.history.push('/')
+                delTask(task._id,props.history)
+                
               }}
             >
               Dell
@@ -87,7 +87,7 @@ const SingleTaskProvider = connect(
     return {
       toogleEdit: () => dispatch(toogleEditThunk()),
       setTask: (props) => dispatch(setTaskThunk(props)),
-      delTask: (id) => dispatch(CloseTaskThunk(id)),
+      delTask: (id,history) => dispatch(CloseTaskThunk(id,history)),
       EditTask: (task) => dispatch(EditTaskThunk(task)),
     }
   }
