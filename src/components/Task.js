@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import ConfirmDellModal from './ConfirmDellModal'
 import AddAndEditModal from './AddAndEditModal'
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { connect } from 'react-redux'
 import {
   faTrash,
   faEdit,
@@ -13,33 +14,18 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 function Task(props) {
-  const [confirm, setonfirm] = useState(false)
-  const [edit, setEdit] = useState(false)
-  const [AddOrEdit, setAddOrEdit] = useState('')
-  const [task, setTask] = useState({})
-
-  const confirmFoo = () => {
-    setonfirm(!confirm)
-  }
-  const editFoo = (id) => {
-    let tasks = [...props.tasks]
-    tasks = tasks.filter((item) => item._id === id)
-    setTask(tasks[0])
-    setEdit(!edit)
-    setAddOrEdit('Edit')
-  }
-  const addFoo = () => {
-    const task = {
-      title: '',
-      description: '',
-      _id: props.id(),
-    }
-    setTask(task)
-    setEdit(!edit)
-    setAddOrEdit('Add')
-  }
-
   const {
+    //state
+    confirm,
+    edit,
+    AddOrEdit,
+    task,
+    //foo
+    confirmFoo,
+    editFoo,
+    setEditTask,
+    addFoo,
+    //todo
     CloseTask,
     toggleId,
     DellTasks,
@@ -69,7 +55,10 @@ function Task(props) {
             </Button>
             <Button
               className="m-2"
-              onClick={() => editFoo(item._id)}
+              onClick={() => {
+                editFoo()
+                setEditTask(item._id, props.tasks)
+              }}
               disabled={Disabled()}
               variant="outline-warning"
               size="sm"
@@ -110,7 +99,7 @@ function Task(props) {
 
       <div className={`ConBtn ${props.tasks.length === 0 ? 'empty' : ''}`}>
         <Button
-          onClick={() => addFoo('edit')}
+          onClick={addFoo}
           variant="outline-success"
           disabled={Disabled()}
         >
@@ -162,4 +151,23 @@ Task.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.object),
   togleId: PropTypes.func,
 }
-export default Task
+const TaskProvider = connect(
+  (state) => {
+    const { confirm, edit, AddOrEdit, task } = state.taskState
+    return {
+      confirm,
+      edit,
+      AddOrEdit,
+      task,
+    }
+  },
+  (dispatch) => {
+    return {
+      confirmFoo: () => dispatch({ type: 'confirmFoo' }),
+      editFoo: () => dispatch({ type: 'editFoo' }),
+      setEditTask: (id, tasks) => dispatch({ type: 'setEditTask', id, tasks }),
+      addFoo: () => dispatch({ type: 'addFoo' }),
+    }
+  }
+)(Task)
+export default TaskProvider

@@ -163,6 +163,10 @@ export const setTaskThunk = (match, history) => (dispatch) => {
         throw data.error
       }
       dispatch({ type: SINGLE_TASK_SET_DATA, data })
+      dispatch({
+        type: SET_SUCCESS_MESSAGE,
+        successMessage: 'Single task Successfully !',
+      })
     })
     .catch(() => {
       history.push('/404')
