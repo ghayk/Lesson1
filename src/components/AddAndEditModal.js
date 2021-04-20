@@ -4,7 +4,6 @@ import { Modal, Button } from 'react-bootstrap'
 import DatePicker from 'react-datepicker'
 
 function AddAndEditModal(props) {
-  console.log('AddAndEditModal', props)
   const [state, setState] = useState({
     ...props.task,
     date: new Date(),
