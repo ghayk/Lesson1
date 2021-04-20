@@ -40,7 +40,7 @@ export const setTasksThunk = () => (dispatch) => {
 }
 export const CloseTaskThunk = (id, history = null) => (dispatch) => {
   dispatch({ type: IS_LOADING, loading: true })
-  fetch(`${API_URL}/task/` + id, {
+  fetch(`${API_URL}/task` + id, {
     method: 'DELETE',
   })
     .then((response) => response.json())
