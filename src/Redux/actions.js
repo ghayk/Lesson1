@@ -16,9 +16,10 @@ import {
   SET_SUCCESS_MESSAGE,
 } from '../Redux/actionTypes'
 import { isRequired, minLength, maxLength, email } from '../helpers/validate'
+const API_URL = process.env.REACT_APP_API_URL
 export const setTasksThunk = () => (dispatch) => {
   dispatch({ type: IS_LOADING, loading: true })
-  fetch('http://localhost:3001/task')
+  fetch(`${API_URL}/task`)
     .then((response) => response.json())
     .then((data) => {
       if (data.error) {
@@ -39,7 +40,7 @@ export const setTasksThunk = () => (dispatch) => {
 }
 export const CloseTaskThunk = (id, history = null) => (dispatch) => {
   dispatch({ type: IS_LOADING, loading: true })
-  fetch('http://localhost:3001/task/' + id, {
+  fetch(`${API_URL}/task/` + id, {
     method: 'DELETE',
   })
     .then((response) => response.json())
@@ -64,7 +65,7 @@ export const AddTaskThunk = (task) => (dispatch) => {
   dispatch({ type: IS_LOADING, loading: true })
   if (!task.title || !task.description) return
   task.date = task.date.toISOString().slice(0, 10)
-  fetch('http://localhost:3001/task', {
+  fetch(`${API_URL}/task`, {
     method: 'POST',
     body: JSON.stringify(task),
     headers: {
@@ -94,7 +95,7 @@ export const toggleIdThunk = (id) => (dispatch) => {
 }
 export const DellTasksThunk = (selectedId) => (dispatch) => {
   dispatch({ type: IS_LOADING, loading: true })
-  fetch('http://localhost:3001/task', {
+  fetch(`${API_URL}/task`, {
     method: 'PATCH',
     body: JSON.stringify({ tasks: Array.from(selectedId) }),
     headers: {
@@ -123,7 +124,7 @@ export const DellTasksThunk = (selectedId) => (dispatch) => {
 export const EditTaskThunk = (task) => (dispatch) => {
   dispatch({ type: IS_LOADING, loading: true })
   task.date = task.date.toISOString().slice(0, 10)
-  fetch('http://localhost:3001/task/' + task._id, {
+  fetch(`${API_URL}/task/` + task._id, {
     method: 'PUT',
     body: JSON.stringify(task),
     headers: {
@@ -156,7 +157,7 @@ export const CheckedAllThunk = () => (dispatch) => {
 export const setTaskThunk = (match, history) => (dispatch) => {
   dispatch({ type: IS_LOADING, loading: true })
   const { id } = match.params
-  fetch(`http://localhost:3001/task/${id}`)
+  fetch(`${API_URL}/task/${id}`)
     .then((response) => response.json())
     .then((data) => {
       if (data.error) {
@@ -181,7 +182,7 @@ export const toogleEditThunk = () => (dispatch) => {
 export const toggleStatusThunk = (task) => (dispatch) => {
   dispatch({ type: IS_LOADING, loading: true })
   const status = task.status === 'active' ? 'done' : 'active'
-  fetch('http://localhost:3001/task/' + task._id, {
+  fetch(`${API_URL}/task/` + task._id, {
     method: 'PUT',
     body: JSON.stringify({ status }),
     headers: {
@@ -208,7 +209,7 @@ export const searchTasksThunk = (queryData) => (dispatch) => {
     query += key + '=' + queryData[key] + '&'
   }
   dispatch({ type: IS_LOADING, loading: true })
-  fetch('http://localhost:3001/task/' + query.slice(0, query.length - 1))
+  fetch(`${API_URL}/task/` + query.slice(0, query.length - 1))
     .then((res) => res.json())
     .then((data) => {
       if (data.error) throw data.error
@@ -247,7 +248,7 @@ export const SaveContactInfoThunk = (state, history) => (dispatch) => {
     formData[key] = formData[key].value
   }
   if (!state.name || !state.email || !state.message) return
-  fetch('http://localhost:3001/form', {
+  fetch(`${API_URL}/form`, {
     method: 'POST',
     body: JSON.stringify(formData),
     headers: {
