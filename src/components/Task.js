@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ConfirmDellModal from './ConfirmDellModal'
 import AddAndEditModal from './AddAndEditModal'
+import Search from './Search'
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,6 +12,8 @@ import {
   faEdit,
   faHourglassHalf,
   faCheck,
+  faPlus,
+  faSearch,
 } from '@fortawesome/free-solid-svg-icons'
 
 function Task(props) {
@@ -20,11 +23,13 @@ function Task(props) {
     edit,
     AddOrEdit,
     task,
+    serach,
     //foo
     confirmFoo,
     editFoo,
     setEditTask,
     addFoo,
+    toogleSerach,
     //todo
     CloseTask,
     toggleId,
@@ -89,6 +94,37 @@ function Task(props) {
 
   return (
     <Container>
+      <div className={`ConBtn ${props.tasks.length === 0 ? 'empty' : ''}`}>
+        <Button
+          onClick={toogleSerach}
+          variant="outline-info"
+          disabled={Disabled()}
+        >
+          <FontAwesomeIcon icon={faSearch} />
+        </Button>
+        <Button
+          onClick={addFoo}
+          variant="outline-success"
+          disabled={Disabled()}
+        >
+          <FontAwesomeIcon icon={faPlus} />
+        </Button>
+        <Button
+          variant="outline-primary"
+          style={{ display: props.tasks.length ? 'block' : 'none' }}
+          onClick={CheckedAll}
+        >
+          <FontAwesomeIcon icon={faCheck} />
+        </Button>
+        <Button
+          variant="outline-danger"
+          onClick={confirmFoo}
+          disabled={!Disabled()}
+        >
+          <FontAwesomeIcon icon={faTrash} />
+        </Button>
+      </div>
+      {serach && <Search />}
       <Row className="justify-content-center">
         {props.tasks.length === 0 ? (
           <p style={{ color: 'white' }}>list is empty</p>
@@ -97,29 +133,6 @@ function Task(props) {
         )}
       </Row>
 
-      <div className={`ConBtn ${props.tasks.length === 0 ? 'empty' : ''}`}>
-        <Button
-          onClick={addFoo}
-          variant="outline-success"
-          disabled={Disabled()}
-        >
-          Add
-        </Button>
-        <Button
-          variant="outline-primary"
-          style={{ display: props.tasks.length ? 'block' : 'none' }}
-          onClick={CheckedAll}
-        >
-          Select All
-        </Button>
-        <Button
-          variant="outline-danger"
-          onClick={confirmFoo}
-          style={{ display: selectedId.length ? 'block' : 'none' }}
-        >
-          Dell Selected
-        </Button>
-      </div>
       <ConfirmDellModal
         DellTasks={DellTasks}
         confirmFoo={confirmFoo}
@@ -153,12 +166,13 @@ Task.propTypes = {
 }
 const TaskProvider = connect(
   (state) => {
-    const { confirm, edit, AddOrEdit, task } = state.taskState
+    const { confirm, edit, AddOrEdit, task, serach } = state.taskState
     return {
       confirm,
       edit,
       AddOrEdit,
       task,
+      serach,
     }
   },
   (dispatch) => {
@@ -167,6 +181,7 @@ const TaskProvider = connect(
       editFoo: () => dispatch({ type: 'editFoo' }),
       setEditTask: (id, tasks) => dispatch({ type: 'setEditTask', id, tasks }),
       addFoo: () => dispatch({ type: 'addFoo' }),
+      toogleSerach: () => dispatch({ type: 'toogleSerach' }),
     }
   }
 )(Task)

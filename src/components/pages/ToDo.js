@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import Task from '../Task'
 import id from '../../helpers/IdGenerator'
 import Loading from '../Loading'
-import Search from '../Search'
 import { connect } from 'react-redux'
 import {
   setTasksThunk,
@@ -40,7 +39,6 @@ function ToDo(props) {
   }
   return (
     <>
-      <Search />
       <Task
         CloseTask={CloseTask}
         tasks={tasks}

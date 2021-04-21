@@ -6,10 +6,16 @@ const initialState = {
   edit: false,
   AddOrEdit: '',
   task: '',
+  serach: false,
 }
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'toogleSerach':
+      return {
+        ...state,
+        serach: !state.serach,
+      }
     case 'confirmFoo':
       return {
         ...state,
