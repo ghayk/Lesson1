@@ -240,10 +240,8 @@ export const handleValueThunk = (e) => (dispatch) => {
   dispatch({ type: HANDLE_CONTACT_VALUE, name, value, error })
 }
 export const SaveContactInfoThunk = (state, history) => (dispatch) => {
-  console.log('state', state)
   const formData = { ...state }
   delete formData.errorMessage
-  console.log('formData', formData)
   for (let key in formData) {
     formData[key] = formData[key].value
   }
