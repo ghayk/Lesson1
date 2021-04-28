@@ -26,10 +26,6 @@ export const setTasksThunk = () => (dispatch) => {
         throw data.error
       }
       dispatch({ type: GET_TASKS, tasks: data })
-      dispatch({
-        type: SET_SUCCESS_MESSAGE,
-        successMessage: 'You set tasks Successfully !',
-      })
     })
     .catch((error) => {
       dispatch({ type: SET_ERROR_MESSAGE, errorMessage: error.message })
