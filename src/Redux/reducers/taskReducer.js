@@ -1,4 +1,10 @@
-import {} from '../actionTypes'
+import {
+  TOOGLE_SEARCH,
+  CONFIRM_FOO,
+  EDIT_FOO,
+  SET_EDIT_TASK,
+  ADD_FOO,
+} from '../actionTypes'
 import id from '../../helpers/IdGenerator'
 
 const initialState = {
@@ -11,22 +17,22 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'toogleSerach':
+    case TOOGLE_SEARCH:
       return {
         ...state,
         serach: !state.serach,
       }
-    case 'confirmFoo':
+    case CONFIRM_FOO:
       return {
         ...state,
         confirm: !state.confirm,
       }
-    case 'editFoo':
+    case EDIT_FOO:
       return {
         ...state,
         edit: !state.edit,
       }
-    case 'setEditTask':
+    case SET_EDIT_TASK:
       let tasks = [...action.tasks]
       tasks = tasks.filter((item) => item._id === action.id)
       return {
@@ -34,7 +40,7 @@ const reducer = (state = initialState, action) => {
         task: tasks[0],
         AddOrEdit: 'Edit',
       }
-    case 'addFoo':
+    case ADD_FOO:
       const task = {
         title: '',
         description: '',

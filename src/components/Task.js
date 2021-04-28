@@ -8,6 +8,13 @@ import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { connect } from 'react-redux'
 import {
+  TOOGLE_SEARCH,
+  CONFIRM_FOO,
+  EDIT_FOO,
+  SET_EDIT_TASK,
+  ADD_FOO,
+} from '../Redux/actionTypes'
+import {
   faTrash,
   faEdit,
   faHourglassHalf,
@@ -177,11 +184,11 @@ const TaskProvider = connect(
   },
   (dispatch) => {
     return {
-      confirmFoo: () => dispatch({ type: 'confirmFoo' }),
-      editFoo: () => dispatch({ type: 'editFoo' }),
-      setEditTask: (id, tasks) => dispatch({ type: 'setEditTask', id, tasks }),
-      addFoo: () => dispatch({ type: 'addFoo' }),
-      toogleSerach: () => dispatch({ type: 'toogleSerach' }),
+      confirmFoo: () => dispatch({ type: CONFIRM_FOO }),
+      editFoo: () => dispatch({ type: EDIT_FOO }),
+      setEditTask: (id, tasks) => dispatch({ type: SET_EDIT_TASK, id, tasks }),
+      addFoo: () => dispatch({ type: ADD_FOO }),
+      toogleSerach: () => dispatch({ type: TOOGLE_SEARCH }),
     }
   }
 )(Task)

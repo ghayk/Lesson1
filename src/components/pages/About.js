@@ -1,7 +1,7 @@
 function About(props) {
   return (
     <>
-      <h1 style={{ color: '#ccc', textAlign: 'center' }}>About</h1>
+      <h1 style={{ color: '#ccc', textAlign: 'center' }}>HAYK GRIGORYAN</h1>
     </>
   )
 }

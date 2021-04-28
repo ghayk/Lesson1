@@ -1,5 +1,4 @@
 * {
-  /* outline: 1px solid #000; */
   margin: 4px;
   user-select: none;
 }
@@ -8,7 +7,6 @@ body {
   color: white;
 }
 .conSearch {
-  /* background: url('./img/img2.jpg') 0 0 /100%; */
   max-width: 500px;
   padding: 10px;
   margin: 10px auto;
@@ -164,7 +162,7 @@ body {
   top: 0;
   right: 5px;
 }
-/* ----------- */
+/* -----Loading------ */
 .lds-dual-ring {
   display: inline-block;
   width: 80px;
@@ -189,7 +187,7 @@ body {
     transform: rotate(360deg);
   }
 }
-/* ----------- */
+/* -----Loading------ */
 textarea {
   resize: none;
 }
